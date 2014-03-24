@@ -1,10 +1,5 @@
-require 'rubygems'
 require 'sinatra'
-require 'active_record'
+require 'sinatra/activerecord'
+require 'sinatra/activerecord/rake'
 
 ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'] || 'sqlite3://localhost/myapp.db')
-
-get '/' do
-  'Heroku/Sinatra/Hello world!'
-end
-
