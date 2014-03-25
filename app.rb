@@ -6,14 +6,12 @@ require 'active_record'
 
 ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'] || 'sqlite3://localhost/myapp.db')
 
+require_relative 'models/init'
+
 get '/' do
-  order_str = case params[:s]
-              when 'i' then 'initial'
-              when 's' then 'sex, name_kana'
-              when 'k' then 'name_kana'
-              else          ''
-              end
-  @authors = Author.all.order(order_str)
+  redirect '/' if params[:s] == ''
+
+  @authors = Author.get_all(params[:s])
   erb :index
 end
 
@@ -22,24 +20,40 @@ get '/show' do
   erb :show
 end
 
-post '/new' do
+post '/create' do
   author = Author.new
   author.name = params[:name]
   author.name_kana = params[:name_kana]
   author.initial = params[:name_kana].first
   author.sex = params[:sex]
   author.save
-  redirect '/'
+
+  redirect "/?s=#{params[:s]}"
+end
+
+get '/edit' do
+  @target_author = Author.find(params[:id])
+  @authors = Author.get_all(params[:s])
+
+  erb :index
+end
+
+post '/update' do
+  author = Author.find(params[:id])
+  author.name = params[:name]
+  author.name_kana = params[:name_kana]
+  author.initial = params[:name_kana].first
+  author.sex = params[:sex]
+  author.save
+
+  redirect "/?s=#{params[:s]}"
 end
 
 delete '/del' do
   author = Author.find(params[:id])
   author.destroy
-  redirect '/'
-end
 
-
-class Author < ActiveRecord::Base
+  redirect "/?s=#{params[:s]}"
 end
 
 

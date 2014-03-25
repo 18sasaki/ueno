@@ -9,24 +9,55 @@
   </tr>
 
   <% @authors.each do |author| %>
-    <tr>
-      <td><%= author.id %></td>
-      <td><%= author.initial %></td>
-      <td><%= author.name %></td>
-      <td><%= author.name_kana %></td>
-      <td><%= sex_translate(author.sex) %></td>
-      <form method="post" action="del">
-        <td>
-          <input type="submit" value="削除">
-        </td>
-        <input type="hidden" name="id" value="<%= author.id %>">
-        <input type="hidden" name="_method" value="delete">
-      </form>
-    </tr>
+    <% if author == @target_author %>
+      <tr>
+        <form method="post" action="update">
+          <td><%= author.id %></td>
+          <td><%= author.initial %></td>
+          <td><input type="text" name="name" value=<%= author.name %>></td>
+          <td><input type="text" name="name_kana" value=<%= author.name_kana %>></td>
+          <td>
+            <select name="sex">
+              <% sex_hash.each_pair do |k,v| %>
+                <%= "<option value='#{k}' #{(k == author.sex.to_s) ? 'selected' : ''}>#{v}</option>" %>
+              <% end %>
+            </select>
+          </td>
+          <td>
+            <input type="submit" value="修正">
+            <input type="hidden" name="id" value="<%= author.id %>">
+            <input type="hidden" name="s" value="<%= params[:s] %>">
+          </td>
+        </form>
+        <form method="post" action="del">
+          <td>
+            <input type="submit" value="削除">
+            <input type="hidden" name="_method" value="delete">
+            <input type="hidden" name="id" value="<%= author.id %>">
+            <input type="hidden" name="s" value="<%= params[:s] %>">
+          </td>
+        </form>
+      </tr>
+    <% else %>
+      <tr>
+        <td><%= author.id %></td>
+        <td><%= author.initial %></td>
+        <td><%= author.name %></td>
+        <td><%= author.name_kana %></td>
+        <td><%= sex_translate(author.sex) %></td>
+        <form method="get" action="edit">
+          <td>
+            <input type="submit" value="編集 / 削除">
+            <input type="hidden" name="id" value="<%= author.id %>">
+            <input type="hidden" name="s" value="<%= params[:s] %>">
+          </td>
+        </form>
+      </tr>
+    <% end %>
   <% end %>
 
   <tr>
-    <form method="post" action="new">
+    <form method="post" action="create">
       <td>**</td>
       <td>**</td>
       <td><input type="text" name="name"></td>
@@ -38,7 +69,10 @@
           <% end %>
         </select>
       </td>
-      <td><input type="submit" value="登録"></td>
+      <td>
+        <input type="submit" value="登録">
+        <input type="hidden" name="s" value="<%= params[:s] %>">
+      </td>
     </form>
   </tr>
 </table>
