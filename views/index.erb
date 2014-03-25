@@ -1,11 +1,11 @@
 
 <table border>
   <tr>
-    <th>id</th>
-    <th>頭文字</th>
-    <th>名前</th>
-    <th>かな</th>
-    <th>性別</th>
+    <th><a href='/'>id</a></th>
+    <th><a href='/?s=i'>頭文字</a></th>
+    <th><a href='/?s=k'>名前</a></th>
+    <th><a href='/?s=k'>かな</a></th>
+    <th><a href='/?s=s'>性別</a></th>
   </tr>
 
   <% @authors.each do |author| %>
@@ -28,7 +28,7 @@
   <tr>
     <form method="post" action="new">
       <td>**</td>
-      <td><input type="text" name="initial"></td>
+      <td>**</td>
       <td><input type="text" name="name"></td>
       <td><input type="text" name="name_kana"></td>
       <td>

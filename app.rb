@@ -7,7 +7,13 @@ require 'active_record'
 ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'] || 'sqlite3://localhost/myapp.db')
 
 get '/' do
-  @authors = Author.all
+  order_str = case params[:s]
+              when 'i' then 'initial'
+              when 's' then 'sex, name_kana'
+              when 'k' then 'name_kana'
+              else          ''
+              end
+  @authors = Author.all.order(order_str)
   erb :index
 end
 
@@ -18,10 +24,9 @@ end
 
 post '/new' do
   author = Author.new
-  author.id = params[:id]
   author.name = params[:name]
   author.name_kana = params[:name_kana]
-  author.initial = params[:initial]
+  author.initial = params[:name_kana].first
   author.sex = params[:sex]
   author.save
   redirect '/'
