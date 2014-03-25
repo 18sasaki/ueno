@@ -1,0 +1,22 @@
+
+<div id="show_div">
+  <table border>
+    <tr>
+      <th>id</th>
+      <td><%= @author.id %></td>
+    <tr>
+      <th>頭文字</th>
+      <td><%= @author.initial %></td>
+    <tr>
+      <th>名前</th>
+      <td><%= @author.name %></td>
+    <tr>
+      <th>かな</th>
+      <td><%= @author.name_kana %></td>
+    <tr>
+      <th>性別</th>
+      <td><%= sex_translate(@author.sex) %></td>
+    </tr>
+  </table>
+</div>
+
