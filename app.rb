@@ -39,12 +39,14 @@ get '/edit' do
 end
 
 post '/update' do
-  author = Author.find(params[:id])
-  author.name = params[:name]
-  author.name_kana = params[:name_kana]
-  author.initial = params[:name_kana].first
-  author.sex = params[:sex]
-  author.save
+  if params[:update]
+    author = Author.find(params[:id])
+    author.name = params[:name]
+    author.name_kana = params[:name_kana]
+    author.initial = params[:name_kana].first
+    author.sex = params[:sex]
+    author.save
+  end
 
   redirect "/?s=#{params[:s]}"
 end

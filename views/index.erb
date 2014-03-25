@@ -8,6 +8,26 @@
     <th><a href='/?s=s'>性別</a></th>
   </tr>
 
+  <tr>
+    <form method="post" action="create">
+      <td>**</td>
+      <td>**</td>
+      <td><input type="text" name="name"></td>
+      <td><input type="text" name="name_kana"></td>
+      <td>
+        <select name="sex">
+          <% sex_hash.each_pair do |k,v| %>
+            <%= "<option value='#{k}'>#{v}</option>" %>
+          <% end %>
+        </select>
+      </td>
+      <td>
+        <input type="submit" value="登録" style='width: 80px;'>
+        <input type="hidden" name="s" value="<%= params[:s] %>">
+      </td>
+    </form>
+  </tr>
+
   <% @authors.each do |author| %>
     <% if author == @target_author %>
       <tr>
@@ -24,14 +44,15 @@
             </select>
           </td>
           <td>
-            <input type="submit" value="修正">
+            <input type="submit" name="update" value="修正" style='width: 80px;'>
+            <input type="submit" name="cancel" value="キャンセル" style='width: 80px;'>
             <input type="hidden" name="id" value="<%= author.id %>">
             <input type="hidden" name="s" value="<%= params[:s] %>">
           </td>
         </form>
         <form method="post" action="del">
           <td>
-            <input type="submit" value="削除">
+            <input type="submit" value="削除" style='width: 80px;'>
             <input type="hidden" name="_method" value="delete">
             <input type="hidden" name="id" value="<%= author.id %>">
             <input type="hidden" name="s" value="<%= params[:s] %>">
@@ -47,7 +68,7 @@
         <td><%= sex_translate(author.sex) %></td>
         <form method="get" action="edit">
           <td>
-            <input type="submit" value="編集 / 削除">
+            <input type="submit" value="編集 / 削除" style='width: 80px;'>
             <input type="hidden" name="id" value="<%= author.id %>">
             <input type="hidden" name="s" value="<%= params[:s] %>">
           </td>
@@ -70,7 +91,7 @@
         </select>
       </td>
       <td>
-        <input type="submit" value="登録">
+        <input type="submit" value="登録" style='width: 80px;'>
         <input type="hidden" name="s" value="<%= params[:s] %>">
       </td>
     </form>
