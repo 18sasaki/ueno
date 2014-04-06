@@ -1,5 +1,5 @@
 
-class Author < ActiveRecord::Base
+class Book < ActiveRecord::Base
   def self.get_all(sort_params='')
     order_str = case sort_params
                 when 'i' then 'initial'
@@ -7,14 +7,15 @@ class Author < ActiveRecord::Base
                 when 'k' then 'name_kana'
                 else          'name_kana'
                 end
-    Author.all.order(order_str)
+    Book.all.order(order_str)
   end
 
   def insert_data(params)
     self.name = params[:name]
     self.name_kana = params[:name_kana]
-    self.initial = params[:name_kana].first
-    self.sex = params[:sex]
+    self.publisher_id = params[:publisher_id]
+    self.author_id = params[:author_id]
+    self.status = params[:status]
     self.save
   end
 end

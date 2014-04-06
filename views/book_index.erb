@@ -1,0 +1,113 @@
+<div align='center'>
+  <h2>Book</h2>
+</div>
+
+<table border>
+  <tr>
+    <th>id</th>
+    <th><a href='/?s=k'>名前</a></th>
+    <th><a href='/?s=a'>著者</a></th>
+    <th>出版社</th>
+    <th>ステータス</th>
+  </tr>
+
+  <tr>
+    <form method="post" action="create">
+      <td>**</td>
+      <td>
+        <input type="text" name="name"><br>
+        <input type="text" name="name_kana">
+      </td>
+      <td>
+        <select name="author_id">
+          <% @authors.each do |author| %>
+            <%= "<option value='#{author.id}'>#{author.name}</option>" %>
+          <% end %>
+        </select>
+      </td>
+      <td>
+        <select name="publisher_id">
+          <% @publishers.each do |publisher| %>
+            <%= "<option value='#{publisher.id}'>#{publisher.name}</option>" %>
+          <% end %>
+        </select>
+      </td>
+      <td>
+        <select name="status">
+          <% status_hash.each_pair do |k,v| %>
+            <%= "<option value='#{k}'>#{v}</option>" %>
+          <% end %>
+        </select>
+      </td>
+      <td>
+        <input type="submit" value="登録" style='width: 80px;'>
+        <input type="hidden" name="s" value="<%= params[:s] %>">
+      </td>
+    </form>
+  </tr>
+
+  <% @books.each do |book| %>
+    <% if book == @target_book %>
+      <tr>
+        <form method="post" action="update">
+          <td><%= book.id %></td>
+          <td>
+            <input type="text" name="name" value=<%= book.name %>><br>
+            <input type="text" name="name_kana" value=<%= book.name_kana %>>
+          </td>
+          <td>
+            <select name="author_id">
+              <% @authors.each do |author| %>
+                <%= "<option value='#{author.id}'>#{author.name}</option>" %>
+              <% end %>
+            </select>
+          </td>
+          <td>
+            <select name="publisher_id">
+              <% @publishers.each do |publisher| %>
+                <%= "<option value='#{publisher.id}'>#{publisher.name}</option>" %>
+              <% end %>
+            </select>
+          </td>
+          <td>
+            <select name="status">
+              <% status_hash.each_pair do |k,v| %>
+                <%= "<option value='#{k}'>#{v}</option>" %>
+              <% end %>
+            </select>
+          </td>
+          <td>
+            <input type="submit" name="update" value="修正" style='width: 80px;'>
+            <input type="submit" name="cancel" value="キャンセル" style='width: 80px;'>
+            <input type="hidden" name="id" value="<%= book.id %>">
+            <input type="hidden" name="s" value="<%= params[:s] %>">
+          </td>
+        </form>
+        <form method="post" action="del">
+          <td>
+            <input type="submit" value="削除" style='width: 80px;'>
+            <input type="hidden" name="_method" value="delete">
+            <input type="hidden" name="id" value="<%= book.id %>">
+            <input type="hidden" name="s" value="<%= params[:s] %>">
+          </td>
+        </form>
+      </tr>
+    <% else %>
+      <tr>
+        <td><%= book.id %></td>
+        <td><%= book.name %></td>
+        <td><%= book.author_id %></td>
+        <td><%= book.publisher_id %></td>
+        <td><%= status_translate(book.status) %></td>
+        <form method="get" action="edit">
+          <td>
+            <input type="submit" value="編集 / 削除" style='width: 80px;'>
+            <input type="hidden" name="id" value="<%= book.id %>">
+            <input type="hidden" name="s" value="<%= params[:s] %>">
+          </td>
+        </form>
+      </tr>
+    <% end %>
+  <% end %>
+</table>
+
