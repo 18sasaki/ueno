@@ -4,6 +4,8 @@ class Book < ActiveRecord::Base
   belongs_to :author
   belongs_to :publisher
 
+  extend RaiseCatch
+
   def self.get_all(sort_params='')
     order_str = case sort_params
                 when 'i' then 'initial'

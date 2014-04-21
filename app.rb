@@ -6,6 +6,7 @@ require 'active_record'
 
 ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'] || 'sqlite3://localhost/myapp.db')
 
+require_relative 'models/raise_catch'
 require_relative 'models/init'
 
 
@@ -108,6 +109,38 @@ delete '/book/del' do
   Book.find(params[:id]).destroy
   redirect '/book/'
 end
+
+
+
+# API
+def return_attributes(instance)
+  json instance ? instance.attributes : Hash.new
+end
+
+get '/api/get_all_authors' do
+  json ({}.tap { |ret_hash| Author.get_all.each { |author| ret_hash[author.id] = author.attributes } })
+end
+
+get '/api/get_author' do
+  return_attributes(Author.find(params[:id]))
+end
+
+get '/api/get_all_publishers' do
+  json ({}.tap { |ret_hash| Publisher.get_all.each { |publisher| ret_hash[publisher.id] = publisher.attributes } })
+end
+
+get '/api/get_publisher' do
+  return_attributes(Publisher.find(params[:id]))
+end
+
+get '/api/get_all_books' do
+  json ({}.tap { |ret_hash| Book.get_all.each { |book| ret_hash[book.id] = book.attributes } })
+end
+
+get '/api/get_book' do
+  return_attributes(Book.find(params[:id]))
+end
+
 
 
 helpers do

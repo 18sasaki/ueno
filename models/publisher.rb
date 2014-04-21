@@ -1,5 +1,7 @@
 
 class Publisher < ActiveRecord::Base
+  extend RaiseCatch
+
   def self.get_all
     Publisher.all.order('name_kana')
   end
