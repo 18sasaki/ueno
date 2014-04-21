@@ -15,11 +15,12 @@
     <form method="post" action="create">
       <td>**</td>
       <td>
-        <input type="text" name="name"><br>
-        <input type="text" name="name_kana">
+        <input type="text" name="name" size='50'><br>
+        <input type="text" name="name_kana" size='50'>
       </td>
       <td>
         <select name="author_id">
+          <option>選択してください</option>
           <% @authors.each do |author| %>
             <%= "<option value='#{author.id}'>#{author.name}</option>" %>
           <% end %>
@@ -27,6 +28,7 @@
       </td>
       <td>
         <select name="publisher_id">
+          <option>選択してください</option>
           <% @publishers.each do |publisher| %>
             <%= "<option value='#{publisher.id}'>#{publisher.name}</option>" %>
           <% end %>
@@ -52,11 +54,12 @@
         <form method="post" action="update">
           <td><%= book.id %></td>
           <td>
-            <input type="text" name="name" value=<%= book.name %>><br>
-            <input type="text" name="name_kana" value=<%= book.name_kana %>>
+            <input type="text" name="name" size='50' value=<%= book.name %>><br>
+            <input type="text" name="name_kana" size='50' value=<%= book.name_kana %>>
           </td>
           <td>
             <select name="author_id">
+              <option>選択してください</option>
               <% @authors.each do |author| %>
                 <%= "<option value='#{author.id}'>#{author.name}</option>" %>
               <% end %>
@@ -64,6 +67,7 @@
           </td>
           <td>
             <select name="publisher_id">
+              <option>選択してください</option>
               <% @publishers.each do |publisher| %>
                 <%= "<option value='#{publisher.id}'>#{publisher.name}</option>" %>
               <% end %>
@@ -72,7 +76,7 @@
           <td>
             <select name="status">
               <% status_hash.each_pair do |k,v| %>
-                <%= "<option value='#{k}'>#{v}</option>" %>
+                <%= "<option value='#{k}' selected=#{k==book.status}>#{v}</option>" %>
               <% end %>
             </select>
           </td>
@@ -96,8 +100,8 @@
       <tr>
         <td><%= book.id %></td>
         <td><%= book.name %></td>
-        <td><%= book.author_id %></td>
-        <td><%= book.publisher_id %></td>
+        <td><%= book.author.name %></td>
+        <td><%= book.publisher.name %></td>
         <td><%= status_translate(book.status) %></td>
         <form method="get" action="edit">
           <td>
