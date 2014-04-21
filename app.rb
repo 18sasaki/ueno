@@ -13,13 +13,17 @@ require_relative 'models/init'
 # top
 get '/' do
   # erb :index
-  text 'top page'
+  json 'top page'
 end
 
 
 # author
 get '/author' do
-  redirect '/author' if params[:s] == ''
+  redirect '/author/'
+end
+
+get '/author/' do
+  redirect '/author/' if params[:s] == ''
   @authors = Author.get_all(params[:s])
   erb :author_index
 end
@@ -38,7 +42,7 @@ end
 
 post '/author/create' do
   Author.new.insert_data(params)
-  redirect "/?s=#{params[:s]}"
+  redirect "/author?s=#{params[:s]}"
 end
 
 get '/author/edit' do
@@ -49,17 +53,21 @@ end
 
 post '/author/update' do
   Author.find(params[:id]).insert_data(params) if params[:update]
-  redirect "/?s=#{params[:s]}"
+  redirect "/author?s=#{params[:s]}"
 end
 
 delete '/author/del' do
   Author.find(params[:id]).destroy
-  redirect "/?s=#{params[:s]}"
+  redirect "/author?s=#{params[:s]}"
 end
 
 
 # publisher
 get '/publisher' do
+  redirect '/publisher/'
+end
+
+get '/publisher/' do
   @publishers = Publisher.get_all
   erb :publisher_index
 end
@@ -88,6 +96,10 @@ end
 
 # book
 get '/book' do
+  redirect '/book/'
+end
+
+get '/book/' do
   @books = Book.get_all
   @authors = Author.get_all
   @publishers = Publisher.get_all
