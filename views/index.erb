@@ -1,0 +1,56 @@
+<div align='center'>
+  <h2>API Sample</h2>
+</div>
+
+<table border>
+  <tr>
+    <th></th>
+    <th>URL</th>
+    <th>パラメータ</th>
+    <th>正常時</th>
+    <th>異常時</th>
+  </tr>
+  <tr>
+    <td>全著者データ</td>
+    <td><a href='/api/get_all_authors'>/api/get_all_authors</a></td>
+    <td>---</td>
+    <td>{ id => {attributes}, id => {attributes},... }</td>
+    <td>{ }</td>
+  </tr>
+  <tr>
+    <td>対象著者データ</td>
+    <td><a href='/api/get_author?id=6'>/api/get_author</a></td>
+    <td>id</td>
+    <td>{ attributes }</td>
+    <td>{ }</td>
+  </tr>
+  <tr>
+    <td>全出版社データ</td>
+    <td><a href='/api/get_all_publishers'>/api/get_all_publishers</a></td>
+    <td>---</td>
+    <td>{ id => {attributes}, id => {attributes},... }</td>
+    <td>{ }</td>
+  </tr>
+  <tr>
+    <td>対象出版社データ</td>
+    <td><a href='/api/get_publisher?id=1'>/api/get_publisher</a></td>
+    <td>id</td>
+    <td>{ attributes }</td>
+    <td>{ }</td>
+  </tr>
+  <tr>
+    <td>全本データ</td>
+    <td><a href='/api/get_all_books'>/api/get_all_books</a></td>
+    <td>---</td>
+    <td>{ id => {attributes}, id => {attributes},... }</td>
+    <td>{ }</td>
+  </tr>
+  <tr>
+    <td>対象本データ</td>
+    <td><a href='/api/get_book?id=1'>/api/get_book</a></td>
+    <td>id</td>
+    <td>{ attributes }</td>
+    <td>{ }</td>
+  </tr>
+</table>
+

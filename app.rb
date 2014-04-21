@@ -12,8 +12,7 @@ require_relative 'models/init'
 
 # top
 get '/' do
-  # erb :index
-  json 'top page'
+  erb :index
 end
 
 
