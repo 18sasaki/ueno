@@ -11,8 +11,8 @@ require_relative 'models/init'
 
 
 # author
-get '/' do
-  redirect '/' if params[:s] == ''
+get '/author' do
+  redirect '/author' if params[:s] == ''
   @authors = Author.get_all(params[:s])
   erb :index
 end
@@ -24,35 +24,35 @@ end
 #   erb "#{klass}/index"
 # end
 
-get '/show' do
-  @author = Author.find(params[:id]) rescue Author.new
+get '/author/show' do
+  @author = Author.find(params[:id])
   erb :show
 end
 
-post '/create' do
+post '/author/create' do
   Author.new.insert_data(params)
   redirect "/?s=#{params[:s]}"
 end
 
-get '/edit' do
+get '/author/edit' do
   @target_author = Author.find(params[:id])
   @authors = Author.get_all(params[:s])
   erb :index
 end
 
-post '/update' do
+post '/author/update' do
   Author.find(params[:id]).insert_data(params) if params[:update]
   redirect "/?s=#{params[:s]}"
 end
 
-delete '/del' do
+delete '/author/del' do
   Author.find(params[:id]).destroy
   redirect "/?s=#{params[:s]}"
 end
 
 
 # publisher
-get '/publisher/' do
+get '/publisher' do
   @publishers = Publisher.get_all
   erb :publisher_index
 end
@@ -80,7 +80,7 @@ end
 
 
 # book
-get '/book/' do
+get '/book' do
   @books = Book.get_all
   @authors = Author.get_all
   @publishers = Publisher.get_all
