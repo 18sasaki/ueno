@@ -10,11 +10,18 @@ require_relative 'models/raise_catch'
 require_relative 'models/init'
 
 
+# top
+get '/' do
+  # erb :index
+  text 'top page'
+end
+
+
 # author
 get '/author' do
   redirect '/author' if params[:s] == ''
   @authors = Author.get_all(params[:s])
-  erb :index
+  erb :author_index
 end
 
 # get '/*' do
@@ -26,7 +33,7 @@ end
 
 get '/author/show' do
   @author = Author.find(params[:id])
-  erb :show
+  erb :author_show
 end
 
 post '/author/create' do
@@ -37,7 +44,7 @@ end
 get '/author/edit' do
   @target_author = Author.find(params[:id])
   @authors = Author.get_all(params[:s])
-  erb :index
+  erb :author_index
 end
 
 post '/author/update' do
