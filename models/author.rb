@@ -2,6 +2,8 @@
 class Author < ActiveRecord::Base
   extend RaiseCatch
 
+  Required = ['name', 'name_kana']
+
   def self.get_all(sort_params='')
     order_str = case sort_params
                 when 'i' then 'initial'
@@ -17,7 +19,9 @@ class Author < ActiveRecord::Base
     self.name = params[:name]
     self.name_kana = params[:name_kana]
     self.initial = params[:name_kana].first
-    self.sex = params[:sex]
+    self.sex = params[:sex] || '0'
     self.save
+
+    self #return
   end
 end

@@ -135,12 +135,28 @@ def return_attributes(instance)
   json instance ? instance.attributes : Hash.new
 end
 
+def check_params(params, type)
+  lack_params = eval(type.classify)::Required.select{ |required| !params[required] }
+  if lack_params.present?
+    raise "parameter is lack : #{lack_params.join(',')}"
+  end
+end
+
 get '/api/get_all_authors' do
   json ({}.tap { |ret_hash| Author.get_all.each { |author| ret_hash[author.id] = author.attributes } })
 end
 
 get '/api/get_author' do
   return_attributes(Author.find(params[:id]))
+end
+
+get '/api/set_author' do
+  begin
+    check_params(params, 'author')
+    return_attributes(Author.new.insert_data(params))
+  rescue => e
+    json "Error !!!  #{e}"
+  end
 end
 
 get '/api/get_all_publishers' do
