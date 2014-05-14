@@ -1,14 +1,22 @@
 #coding: utf-8
 
+require 'nokogiri'
 require 'rubygems'
 require 'sinatra'
 require 'active_record'
+require 'amazon/ecs'
 
 ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'] || 'sqlite3://localhost/myapp.db')
 
 require_relative 'models/raise_catch'
 require_relative 'models/init'
 
+Amazon::Ecs.configure do |options|
+  options[:associate_tag] = '18sasaki-22'
+  options[:AWS_access_key_id] = "******************"
+  options[:AWS_secret_key] = "******************"
+  options[:country] = 'jp'
+end
 
 # top
 get '/' do
@@ -126,6 +134,21 @@ end
 delete '/book/del' do
   Book.find(params[:id]).destroy
   redirect '/book/'
+end
+
+
+# search
+get '/search' do
+  redirect '/search/'
+end
+
+get '/search/' do
+  erb :search_index
+end
+
+post '/search/' do
+  @data = Search.search_by_isbn(params[:isbn])
+  erb :search_index
 end
 
 

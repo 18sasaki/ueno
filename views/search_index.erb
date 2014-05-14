@@ -1,0 +1,24 @@
+<div align='center'>
+  <h2>Search</h2>
+</div>
+
+
+<form method="post">
+  <table border>
+    <tr>
+      <td>ISBN</td>
+      <td><input type="text" name="isbn" value=<%= @data ? @data[:isbn] : '' %>></td>
+    </tr>
+    <tr>
+      <td colspan=2>
+        <input type="submit" value="検索" style='width: 80px;'>
+      </td>
+    </tr>
+  </table>
+</form>
+
+<% if @data %>
+  <div><%= @data %></div>
+<% else %>
+  <div>Please Search !!!</div>
+<% end %>
