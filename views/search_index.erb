@@ -19,6 +19,23 @@
 
 <% if @data %>
   <div><%= @data %></div>
+  ---------------- 検索結果 ----------------
+  <div id="search_result">
+    <table border>
+      <tr>
+        <th>ISBN</th>
+        <td><%= @data[:isbn] %></td>
+      <tr>
+        <th>タイトル</th>
+        <td><%= @data[:title] %></td>
+      <tr>
+        <th>著者名</th>
+        <td><%= @data[:author] %></td>
+      <tr>
+        <th>出版社</th>
+        <td><%= @data[:publisher] %></td>
+    </table>
+  </div>
 <% else %>
   <div>Please Search !!!</div>
 <% end %>
