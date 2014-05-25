@@ -15,9 +15,16 @@ class Author < ActiveRecord::Base
     Author.all.order(order_str)
   end
 
+  def self.find_by_name(name, type = :eq)
+    case type
+    when :eq   then Author.where(name: name).first
+    when :like then Author.where('name like ?', '%name%')
+    end
+  end
+
   def insert_data(params)
-    self.name = params[:name]
-    self.name_kana = params[:name_kana]
+    self.name = params[:name].gsub(/\s/, '')
+    self.name_kana = params[:name_kana].gsub(/\s/, '')
     self.initial = params[:name_kana].first
     self.sex = params[:sex] || '0'
     self.save

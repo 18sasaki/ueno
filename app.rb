@@ -151,6 +151,30 @@ post '/search/' do
   erb :search_index
 end
 
+get '/search/book_register' do
+  @author_id = params[:author_id].presence || Search.get_author_id(params[:author_name])
+  @authors = Author.get_all
+  @publisher_id = params[:publisher_id].presence || Search.get_publisher_id(params[:publisher_name])
+  @publishers = Publisher.get_all
+  erb :search_book_register
+end
+
+post '/search/author_register' do
+  new_author = Author.new.insert_data(params)
+  new_params = params['original'].merge({author_id: new_author.id, author_name: new_author.name})
+  redirect "/search/book_register?#{data_to_query(new_params)}"
+end
+
+post '/search/publisher_register' do
+  new_publisher = Publisher.new.insert_data(params)
+  new_params = params['original'].merge({publisher_id: new_publisher.id, publisher_name: new_publisher.name})
+  redirect "/search/book_register?#{data_to_query(new_params)}"
+end
+
+post '/search/book_register' do
+  Book.new.insert_data(params)
+  redirect '/book/'
+end
 
 
 # API
@@ -215,5 +239,11 @@ helpers do
 
   def status_translate(status_int)
     status_hash[status_int.to_s]
+  end
+
+  def data_to_query(data)
+    URI.encode(data.map do |k, v|
+                 "#{k}=#{v}"
+               end.join('&'))
   end
 end

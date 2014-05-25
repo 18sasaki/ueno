@@ -30,11 +30,12 @@
         <td><%= @data[:title] %></td>
       <tr>
         <th>著者名</th>
-        <td><%= @data[:author] %></td>
+        <td><%= @data[:author_name] %></td>
       <tr>
         <th>出版社</th>
-        <td><%= @data[:publisher] %></td>
+        <td><%= @data[:publisher_name] %></td>
     </table>
+    <a href='/search/book_register?<%= data_to_query(@data) %>'>登録画面へ</a>
   </div>
 <% else %>
   <div>Please Search !!!</div>

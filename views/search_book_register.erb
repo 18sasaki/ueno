@@ -1,0 +1,153 @@
+<script type="text/javascript">
+<!--
+function changeAuthor() {
+  var author_select = document.getElementById('author_select');
+  var author_item = author_select.options.item(author_select.selectedIndex)
+　document.getElementById('author_name').innerHTML = author_item.text;
+　document.getElementById('hidden_author_id').innerHTML = author_item.value;
+}
+function changePublisher() {
+  var publisher_select = document.getElementById('publisher_select');
+  var publisher_item = publisher_select.options.item(publisher_select.selectedIndex)
+　document.getElementById('publisher_name').innerHTML = publisher_item.text;
+　document.getElementById('hidden_publisher_id').innerHTML = publisher_item.value;
+}
+// -->
+</script>
+
+<div align='center'>
+  <h2>Search -> Register</h2>
+</div>
+
+<div id="show_div">
+  <% book_register_flg = @author_id && @publisher_id %>
+  <% if book_register_flg %>
+    <form method="post" action="book_register">
+  <% else %>
+    ※先に著者名と出版社名を確定させてください
+  <% end %>
+    <table border>
+      <tr>
+        <th>ISBN</th>
+        <td><%= params[:isbn] %></td>
+        <input id='isbn' type="hidden" name="isbn" value='<%= params[:isbn] %>'>
+      <tr>
+        <th>タイトル</th>
+        <td>
+          <% if book_register_flg %>
+            <input type="text" name="name" value='<%= params[:title] %>' size='50'><br>
+            カナ：<input type="text" name="name_kana" size='50'>
+          <% else %>
+            <%= params[:title] %>
+          <% end %>
+        </td>
+      <tr>
+        <th>著者名</th>
+        <td>
+          <% if @author_id %>
+            <div id='author_name'><%= params[:author_name] %></div>
+            <input id='hidden_author_id' type="hidden" name="author_id" value='<%= @author_id %>'>
+            (変更：
+              <select id='author_select'>
+                <option value=''>選択してください</option>
+                <% @authors.each do |author| %>
+                  <%= "<option value='#{author.id}'>#{author.name}</option>" %>
+                <% end %>
+              </select>
+              <input type="button" name="change_author" id="change_author" value="変更する" onclick="changeAuthor()" />
+            )
+          <% else %>
+            <form method="post" action="author_register">
+              著者を新規登録する場合：
+              <table>
+                <tr><td>名前</td><td><input type="text" name="name" value="<%= params[:author_name] %>"></td></tr>
+                <tr><td>カナ</td><td><input type="text" name="name_kana"></td></tr>
+                <tr>
+                  <td>性別</td>
+                  <td>
+                    <select name="sex">
+                      <% sex_hash.each_pair do |k,v| %>
+                        <%= "<option value='#{k}'>#{v}</option>" %>
+                      <% end %>
+                    </select>
+                  </td>
+                  <td><input type="submit" value="登録" style='width: 80px;'></td>
+                </tr>
+              </table>
+              <input type="hidden" name="original[isbn]" value='<%= params[:isbn] %>'>
+              <input type="hidden" name="original[title]" value='<%= params[:title] %>'>
+              <input type="hidden" name="original[publisher_id]" value='<%= @publisher_id %>'>
+              <input type="hidden" name="original[publisher_name]" value='<%= params[:publisher_name] %>'>
+            </form>
+            <hr>
+            <!-- 登録済の著者から選ぶ場合：
+            <form method="post" action="change_author">
+              <select name="author_id">
+                <% @authors.each do |author| %>
+                  <%= "<option value='#{author.id}'>#{author.name}</option>" %>
+                <% end %>
+              </select>
+              <input type="submit" value="決定" style='width: 80px;'>
+            </form> -->
+          <% end %>
+        </td>
+      <tr>
+        <th>出版社</th>
+        <td>
+          <% if @publisher_id %>
+            <div id='publisher_name'><%= params[:publisher_name] %></div>
+            <input id='hidden_publisher_id' type="hidden" name="publisher_id" value='<%= @publisher_id %>'>
+            (変更：
+              <select id='publisher_select'>
+                <option value=''>選択してください</option>
+                <% @publishers.each do |publisher| %>
+                  <%= "<option value='#{publisher.id}'>#{publisher.name}</option>" %>
+                <% end %>
+              </select>
+              <input type="button" name="change_publisher" id="change_publisher" value="変更する" onclick="changePublisher()" />
+            )
+          <% else %>
+            <form method="post" action="publisher_register">
+              出版社を新規登録する場合：
+              <table>
+                <tr><td>名前</td><td><input type="text" name="name" value="<%= params[:publisher_name] %>"></td></tr>
+                <tr><td>カナ</td><td><input type="text" name="name_kana"></td></tr>
+                <tr><td colspan=2><input type="submit" value="登録" style='width: 80px;'></td></tr>
+              </table>
+              <input type="hidden" name="original[isbn]" value='<%= params[:isbn] %>'>
+              <input type="hidden" name="original[title]" value='<%= params[:title] %>'>
+              <input type="hidden" name="original[author_id]" value='<%= @author_id %>'>
+              <input type="hidden" name="original[author_name]" value='<%= params[:author_name] %>'>
+            </form>
+            <hr>
+            <!-- 登録済の出版社から選ぶ場合：
+            <form method="post" action="change_publisher">
+              <select name="publisher_id">
+                <% @publishers.each do |publisher| %>
+                  <%= "<option value='#{publisher.id}'>#{publisher.name}</option>" %>
+                <% end %>
+              </select>
+              <input type="submit" value="決定" style='width: 80px;'>
+            </form> -->
+          <% end %>
+        </td>
+      </tr>
+      <% if book_register_flg %>
+        <tr>
+          <th>ステータス</th>
+          <td>
+            <select name="status">
+              <% status_hash.each_pair do |k,v| %>
+                <%= "<option value='#{k}'>#{v}</option>" %>
+              <% end %>
+            </select>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  <% if book_register_flg %>
+    <input type="submit" value="登録する" style='width: 80px;'>
+    </form>
+  <% end %>
+</div>
+
