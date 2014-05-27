@@ -12,9 +12,9 @@ require_relative 'models/raise_catch'
 require_relative 'models/init'
 
 Amazon::Ecs.configure do |options|
-  options[:associate_tag] = '18sasaki-22'
-  options[:AWS_access_key_id] = "******************"
-  options[:AWS_secret_key] = "******************"
+  options[:associate_tag] = ENV['ASSOCIATE_TAG']
+  options[:AWS_access_key_id] = ENV['AWS_ACCESS_KEY_ID']
+  options[:AWS_secret_key] = ENV['AWS_SECRET_KEY']
   options[:country] = 'jp'
 end
 
