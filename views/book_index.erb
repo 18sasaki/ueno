@@ -16,7 +16,7 @@
       <td>**</td>
       <td>
         <input type="text" name="name" size='50'><br>
-        <input type="text" name="name_kana" size='50'>
+        <input type="text" name="name_kana" id="name_kana" size='50'>
       </td>
       <td>
         <select name="author_id">
@@ -42,7 +42,7 @@
         </select>
       </td>
       <td>
-        <input type="submit" value="登録" style='width: 80px;'>
+        <input type="submit" value="登録" style='width: 80px;' onClick="return KanaCheck();">
         <input type="hidden" name="s" value="<%= params[:s] %>">
       </td>
     </form>
@@ -81,7 +81,7 @@
             </select>
           </td>
           <td>
-            <input type="submit" name="update" value="修正" style='width: 80px;'>
+            <input type="submit" name="update" value="修正" style='width: 80px;' onClick="return KanaCheck();">
             <input type="submit" name="cancel" value="キャンセル" style='width: 80px;'>
             <input type="hidden" name="id" value="<%= book.id %>">
             <input type="hidden" name="s" value="<%= params[:s] %>">
@@ -105,7 +105,7 @@
         <td><%= status_translate(book.status) %></td>
         <form method="get" action="edit">
           <td>
-            <input type="submit" value="編集 / 削除" style='width: 80px;'>
+            <input type="submit" value="編集 / 削除" style='width: 80px;' onClick="return KanaCheck();">
             <input type="hidden" name="id" value="<%= book.id %>">
             <input type="hidden" name="s" value="<%= params[:s] %>">
           </td>

@@ -5,6 +5,14 @@
     function ChgMyText() {
     　document.getElementById('mytext').innerHTML = 'BBBB';
     }
+
+    function KanaCheck() {
+      var str = document.getElementById('name_kana').value;
+      if( str.match( /[^ぁ-ん0-9０-９・　\s]+/ ) ) {
+        alert("「かな」欄に登録出来るのは、ひらがなと全角数字と'・'のみです。");
+        return false;
+      }
+    }
   // -->
 </script>
 

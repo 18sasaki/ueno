@@ -36,7 +36,7 @@ function changePublisher() {
         <td>
           <% if book_register_flg %>
             <input type="text" name="name" value='<%= params[:title] %>' size='50'><br>
-            カナ：<input type="text" name="name_kana" size='50'>
+            かな：<input type="text" name="name_kana" id="name_kana" size='50'>
           <% else %>
             <%= params[:title] %>
           <% end %>
@@ -61,7 +61,7 @@ function changePublisher() {
               著者を新規登録する場合：
               <table>
                 <tr><td>名前</td><td><input type="text" name="name" value="<%= params[:author_name] %>"></td></tr>
-                <tr><td>カナ</td><td><input type="text" name="name_kana"></td></tr>
+                <tr><td>かな</td><td><input type="text" name="name_kana" id="name_kana"></td></tr>
                 <tr>
                   <td>性別</td>
                   <td>
@@ -71,7 +71,7 @@ function changePublisher() {
                       <% end %>
                     </select>
                   </td>
-                  <td><input type="submit" value="登録" style='width: 80px;'></td>
+                  <td><input type="submit" value="登録" style='width: 80px;' onClick="return KanaCheck();"></td>
                 </tr>
               </table>
               <input type="hidden" name="original[isbn]" value='<%= params[:isbn] %>'>
@@ -111,8 +111,8 @@ function changePublisher() {
               出版社を新規登録する場合：
               <table>
                 <tr><td>名前</td><td><input type="text" name="name" value="<%= params[:publisher_name] %>"></td></tr>
-                <tr><td>カナ</td><td><input type="text" name="name_kana"></td></tr>
-                <tr><td colspan=2><input type="submit" value="登録" style='width: 80px;'></td></tr>
+                <tr><td>かな</td><td><input type="text" name="name_kana" id="name_kana"></td></tr>
+                <tr><td colspan=2><input type="submit" value="登録" style='width: 80px;' onClick="return KanaCheck();"></td></tr>
               </table>
               <input type="hidden" name="original[isbn]" value='<%= params[:isbn] %>'>
               <input type="hidden" name="original[title]" value='<%= params[:title] %>'>
@@ -146,7 +146,7 @@ function changePublisher() {
       <% end %>
     </table>
   <% if book_register_flg %>
-    <input type="submit" value="登録する" style='width: 80px;'>
+    <input type="submit" value="登録する" style='width: 80px;' onClick="return KanaCheck();">
     </form>
   <% end %>
 </div>

@@ -16,7 +16,7 @@
       <td>**</td>
       <td>**</td>
       <td><input type="text" name="name"></td>
-      <td><input type="text" name="name_kana"></td>
+      <td><input type="text" name="name_kana" id="name_kana"></td>
       <td>
         <select name="sex">
           <% sex_hash.each_pair do |k,v| %>
@@ -25,7 +25,7 @@
         </select>
       </td>
       <td>
-        <input type="submit" value="登録" style='width: 80px;'>
+        <input type="submit" value="登録" style='width: 80px;' onClick="return KanaCheck();">
         <input type="hidden" name="s" value="<%= params[:s] %>">
       </td>
     </form>
@@ -47,7 +47,7 @@
             </select>
           </td>
           <td>
-            <input type="submit" name="update" value="修正" style='width: 80px;'>
+            <input type="submit" name="update" value="修正" style='width: 80px;' onClick="return KanaCheck();">
             <input type="submit" name="cancel" value="キャンセル" style='width: 80px;'>
             <input type="hidden" name="id" value="<%= author.id %>">
             <input type="hidden" name="s" value="<%= params[:s] %>">
@@ -85,7 +85,7 @@
       <td>**</td>
       <td>**</td>
       <td><input type="text" name="name"></td>
-      <td><input type="text" name="name_kana"></td>
+      <td><input type="text" name="name_kana" id="name_kana"></td>
       <td>
         <select name="sex">
           <% sex_hash.each_pair do |k,v| %>
@@ -94,7 +94,7 @@
         </select>
       </td>
       <td>
-        <input type="submit" value="登録" style='width: 80px;'>
+        <input type="submit" value="登録" style='width: 80px;' onClick="return KanaCheck();">
         <input type="hidden" name="s" value="<%= params[:s] %>">
       </td>
     </form>
