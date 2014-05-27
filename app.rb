@@ -30,8 +30,7 @@ get '/author' do
 end
 
 get '/author/' do
-  redirect '/author/' if params[:s] == ''
-  @authors = Author.get_all(params[:s])
+  @authors = Author.get_all
   erb :author_index
 end
 
@@ -54,7 +53,7 @@ end
 
 get '/author/edit' do
   @target_author = Author.find(params[:id])
-  @authors = Author.get_all(params[:s])
+  @authors = Author.get_all
   erb :author_index
 end
 

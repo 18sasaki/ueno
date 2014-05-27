@@ -6,14 +6,8 @@ class Book < ActiveRecord::Base
 
   extend RaiseCatch
 
-  def self.get_all(sort_params='')
-    order_str = case sort_params
-                when 'i' then 'initial'
-                when 's' then 'sex, name_kana'
-                when 'k' then 'name_kana'
-                else          'name_kana'
-                end
-    Book.all.order(order_str)
+  def self.get_all
+    Book.all.order('name_kana')
   end
 
   def insert_data(params)
