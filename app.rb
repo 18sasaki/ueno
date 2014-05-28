@@ -34,6 +34,12 @@ get '/author/' do
   erb :author_index
 end
 
+# 検索用
+post '/author/' do
+  @authors = Author.search(params)
+  erb :author_index
+end
+
 # get '/*' do
 #   klass = params[:splat].first
 #   redirect "/#{klass}" if params[:s] == ''
@@ -225,7 +231,7 @@ end
 
 helpers do
   def sex_hash
-    { '0' => '未設定', '1' => '男', '2' => '女', '3' => '非公開' }
+    { '0' => '', '1' => '男', '2' => '女', '3' => '非公開' }
   end
 
   def sex_translate(sex_int)
@@ -238,6 +244,11 @@ helpers do
 
   def status_translate(status_int)
     status_hash[status_int.to_s]
+  end
+
+  def initial_list
+    # TODO: 初期ロードで作っておく（Authorの変更時に修正するメソッド呼ぶ）
+    Author.group('initial').pluck('initial')
   end
 
   def data_to_query(data)
