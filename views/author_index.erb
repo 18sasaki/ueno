@@ -94,15 +94,8 @@
             </select>
           </td>
           <td>
-            <input type="submit" name="update" value="修正" style='width: 80px;' onClick="return KanaCheck();">
+            <input type="submit" name="update" value="修正" style='width: 60px;' onClick="return KanaCheck();">
             <input type="submit" name="cancel" value="キャンセル" style='width: 80px;'>
-            <input type="hidden" name="id" value="<%= author.id %>">
-          </td>
-        </form>
-        <form method="post" action="del">
-          <td>
-            <input type="submit" value="削除" style='width: 80px;'>
-            <input type="hidden" name="_method" value="delete">
             <input type="hidden" name="id" value="<%= author.id %>">
           </td>
         </form>
@@ -111,12 +104,19 @@
       <tr>
         <td><%= author.id %></td>
         <td><%= author.initial %></td>
-        <td><%= author.name %></td>
+        <td id="disp_name"><%= author.name %></td>
         <td><%= author.name_kana %></td>
         <td><%= sex_translate(author.sex) %></td>
         <form method="get" action="edit">
           <td>
-            <input type="submit" value="編集 / 削除" style='width: 80px;'>
+            <input type="submit" value="編集" style='width: 60px;'>
+            <input type="hidden" name="id" value="<%= author.id %>">
+          </td>
+        </form>
+        <form method="post" action="del">
+          <td>
+            <input type="submit" value="削除" style='width: 60px;' onClick="return DeleteCheck();">
+            <input type="hidden" name="_method" value="delete">
             <input type="hidden" name="id" value="<%= author.id %>">
           </td>
         </form>

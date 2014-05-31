@@ -20,6 +20,13 @@
         return false;
       }
     }
+
+    function DeleteCheck() {
+      var disp_name = document.getElementById('disp_name').innerText;
+      if(!confirm(disp_name + "を削除します。よろしいですか？")) {
+        return false;
+      }
+    }
   // -->
 </script>
 
