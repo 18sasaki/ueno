@@ -2,14 +2,21 @@
 
 <script type="text/javascript">
   <!--
-    function ChgMyText() {
-    　document.getElementById('mytext').innerHTML = 'BBBB';
+    function CreateCheck() {
+      var name_str = document.getElementById('name').value;
+      var kana_str = document.getElementById('name_kana').value;
+      if( name_str.match(/.+/) && kana_str.match(/.+/) ) {
+        return KanaCheck();
+      } else {
+        alert("未入力項目があります");
+        return false;
+      }
     }
 
     function KanaCheck() {
       var str = document.getElementById('name_kana').value;
-      if( str.match( /[^ぁ-ん0-9０-９・　\s]+/ ) ) {
-        alert("「かな」欄に登録出来るのは、ひらがなと全角数字と'・'のみです。");
+      if( str.match( /[^ぁ-ん0-9０-９]+/ ) ) {
+        alert("「かな」欄に登録出来るのは、ひらがなと全角数字のみです。");
         return false;
       }
     }

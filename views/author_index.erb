@@ -2,36 +2,71 @@
   <h2>Author</h2>
 </div>
 
-<form method="post" action="">
-  <table>
-    <tr>
-      <td>頭文字</td>
-      <td>
-        <select name="initial">
-          <option value=''></option>
-          <% initial_list.each do |i| %>
-            <option value=<%= i %><%= ' selected=true' if params[:initial] == i %>><%= i %></option>
-          <% end %>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td>名前</td>
-      <td><input type="text" name="name" value=<%= params[:name] %>></td>
-    </tr>
-    <tr>
-      <td>性別</td>
-      <td>
-        <select name="sex">
-          <% sex_hash.each_pair do |k,v| %>
-            <option value=<%= k %><%= ' selected=true' if params[:sex] == k %>><%= v %></option>
-          <% end %>
-        </select>
-      </td>
-    </tr>
-    <tr><td colspan=2><input type="submit" value="検索" style='width: 80px;'></td></tr>
-  </table>
-</form>
+<table border>
+  <tr>
+    <th align=center>検索</td>
+    <th align=center>登録</td>
+  </tr>
+  <tr>
+    <td>
+      <form method="post" action="">
+        <table>
+          <tr>
+            <td>頭文字</td>
+            <td>
+              <select name="initial">
+                <option value=''></option>
+                <% initial_list.each do |i| %>
+                  <option value=<%= i %><%= ' selected=true' if params[:initial] == i %>><%= i %></option>
+                <% end %>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>名前</td>
+            <td><input type="text" name="name" value=<%= params[:name] %>></td>
+          </tr>
+          <tr>
+            <td>性別</td>
+            <td>
+              <select name="sex">
+                <% sex_hash.each_pair do |k,v| %>
+                  <option value=<%= k %><%= ' selected=true' if params[:sex] == k %>><%= v %></option>
+                <% end %>
+              </select>
+            </td>
+          </tr>
+          <tr><td colspan=2 align=center><input type="submit" value="検索" style='width: 80px;'></td></tr>
+        </table>
+      </form>
+    </td>
+    <td>
+      <form method="post" action="create">
+        <table>
+          <tr>
+            <td>名前</td>
+            <td><input type="text" name="name" id="name"></td>
+          </tr>
+          <tr>
+            <td>かな</td>
+            <td><input type="text" name="name_kana" id="name_kana"></td>
+          </tr>
+          <tr>
+            <td>性別</td>
+            <td>
+              <select name="sex">
+                <% sex_hash.each_pair do |k,v| %>
+                  <option value=<%= k %>><%= v %></option>
+                <% end %>
+              </select>
+            </td>
+          </tr>
+          <tr><td colspan=2 align=center><input type="submit" value="登録" style='width: 80px;' onClick="return CreateCheck();"></td></tr>
+        </table>
+      </form>
+    </td>
+  </tr>
+</table>
 
 <br><br>
 
@@ -43,27 +78,6 @@
     <th>かな</th>
     <th>性別</th>
   </tr>
-
-  <tr>
-    <form method="post" action="create">
-      <td>**</td>
-      <td>**</td>
-      <td><input type="text" name="name"></td>
-      <td><input type="text" name="name_kana" id="name_kana"></td>
-      <td>
-        <select name="sex">
-          <% sex_hash.each_pair do |k,v| %>
-            <%= "<option value='#{k}'>#{v}</option>" %>
-          <% end %>
-        </select>
-      </td>
-      <td>
-        <input type="submit" value="登録" style='width: 80px;' onClick="return KanaCheck();">
-        <input type="hidden" name="s" value="<%= params[:s] %>">
-      </td>
-    </form>
-  </tr>
-
   <% @authors.each do |author| %>
     <% if author == @target_author %>
       <tr>
@@ -83,7 +97,6 @@
             <input type="submit" name="update" value="修正" style='width: 80px;' onClick="return KanaCheck();">
             <input type="submit" name="cancel" value="キャンセル" style='width: 80px;'>
             <input type="hidden" name="id" value="<%= author.id %>">
-            <input type="hidden" name="s" value="<%= params[:s] %>">
           </td>
         </form>
         <form method="post" action="del">
@@ -91,7 +104,6 @@
             <input type="submit" value="削除" style='width: 80px;'>
             <input type="hidden" name="_method" value="delete">
             <input type="hidden" name="id" value="<%= author.id %>">
-            <input type="hidden" name="s" value="<%= params[:s] %>">
           </td>
         </form>
       </tr>
@@ -106,31 +118,10 @@
           <td>
             <input type="submit" value="編集 / 削除" style='width: 80px;'>
             <input type="hidden" name="id" value="<%= author.id %>">
-            <input type="hidden" name="s" value="<%= params[:s] %>">
           </td>
         </form>
       </tr>
     <% end %>
   <% end %>
-
-  <tr>
-    <form method="post" action="create">
-      <td>**</td>
-      <td>**</td>
-      <td><input type="text" name="name"></td>
-      <td><input type="text" name="name_kana" id="name_kana"></td>
-      <td>
-        <select name="sex">
-          <% sex_hash.each_pair do |k,v| %>
-            <%= "<option value='#{k}'>#{v}</option>" %>
-          <% end %>
-        </select>
-      </td>
-      <td>
-        <input type="submit" value="登録" style='width: 80px;' onClick="return KanaCheck();">
-        <input type="hidden" name="s" value="<%= params[:s] %>">
-      </td>
-    </form>
-  </tr>
 </table>
 
