@@ -38,16 +38,8 @@ get '/author/' do
 end
 
 # 検索用
-post '/author/search' do
-  if params[:search]
-    session[:author] = {}.tap do |ses|
-                         params.each do |k, v|
-                           ses[k] = v
-                         end
-                       end
-  else #params[:clear]
-    session[:author] = {}
-  end
+post '/author/' do
+  session[:author] = params[:search_button] ? params_to_session(params) : {}
   @authors = Author.search(session[:author])
   erb :author_index
 end
@@ -267,5 +259,14 @@ helpers do
     URI.encode(data.map do |k, v|
                  "#{k}=#{v}"
                end.join('&'))
+  end
+
+  def params_to_session(params)
+    {}.tap do |ses|
+      params.each do |k, v|
+        next if k == 'search_button'
+        ses[k] = v
+      end
+    end
   end
 end
