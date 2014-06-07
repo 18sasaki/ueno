@@ -116,7 +116,16 @@ get '/book' do
 end
 
 get '/book/' do
-  @books = Book.get_all
+  @books = Book.search(session[:book])
+  @authors = Author.get_all
+  @publishers = Publisher.get_all
+  erb :book_index
+end
+
+# 検索用
+post '/book/' do
+  session[:book] = params[:search_button] ? params_to_session(params) : {}
+  @books = Book.search(session[:book])
   @authors = Author.get_all
   @publishers = Publisher.get_all
   erb :book_index
@@ -129,7 +138,7 @@ end
 
 get '/book/edit' do
   @target_book = Book.find(params[:id])
-  @books = Book.get_all
+  @books = Book.search(session[:book])
   @authors = Author.get_all
   @publishers = Publisher.get_all
   erb :book_index

@@ -4,50 +4,117 @@
 
 <table border>
   <tr>
+    <th align=center>検索</td>
+    <th align=center>登録</td>
+  </tr>
+  <tr>
+    <td>
+      <form method="post">
+        <table>
+          <tr>
+            <td>名前</td>
+            <td><input type="text" name="name" value='<%= session[:book] && session[:book]['name'] %>' size='30'></td>
+          </tr>
+          <tr>
+            <td>著者</td>
+            <td>
+              <select name="author_id">
+                <option value=''></option>
+                <% @authors.each do |author| %>
+                  <option value=<%= author.id %><%= ' selected=true' if session[:book] && session[:book]['author_id'].to_i == author.id %>><%= author.name %></option>
+                <% end %>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>出版社</td>
+            <td>
+              <select name="publisher_id">
+                <option value=''></option>
+                <% @publishers.each do |publisher| %>
+                  <option value=<%= publisher.id %><%= ' selected=true' if session[:book] && session[:book]['publisher_id'].to_i == publisher.id %>><%= publisher.name %></option>
+                <% end %>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>ステータス</td>
+            <td>
+              <select name="status">
+                <option value=''></option>
+                <% status_hash.each_pair do |k,v| %>
+                  <option value=<%= k %><%= ' selected=true' if session[:book] && session[:book]['status'] == k %>><%= v %></option>
+                <% end %>
+              </select>
+            </td>
+          </tr>
+          <tr><td colspan=2 align=center>
+            <input type="submit" value="検索" style='width: 80px;', name='search_button'>
+            <input type="submit" value="クリア" style='width: 80px;', name='clear_button'>
+          </td></tr>
+        </table>
+      </form>
+    </td>
+    <td>
+      <form method="post" action="create">
+        <table>
+          <tr>
+            <td>名前</td>
+            <td><input type="text" name="name" id="name" size='30'></td>
+          </tr>
+          <tr>
+            <td>かな</td>
+            <td><input type="text" name="name_kana" id="name_kana" size='30'></td>
+          </tr>
+          <tr>
+            <td>著者</td>
+            <td>
+              <select name="author_id">
+                <option>選択してください</option>
+                <% @authors.each do |author| %>
+                  <%= "<option value='#{author.id}'>#{author.name}</option>" %>
+                <% end %>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>出版社</td>
+            <td>
+              <select name="publisher_id">
+                <option>選択してください</option>
+                <% @publishers.each do |publisher| %>
+                  <%= "<option value='#{publisher.id}'>#{publisher.name}</option>" %>
+                <% end %>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>ステータス</td>
+            <td>
+              <select name="status">
+                <% status_hash.each_pair do |k,v| %>
+                  <%= "<option value='#{k}'>#{v}</option>" %>
+                <% end %>
+              </select>
+            </td>
+          </tr>
+          <tr><td colspan=2 align=center><input type="submit" value="登録" style='width: 80px;' onClick="return CreateCheck();"></td></tr>
+        </table>
+      </form>
+    </td>
+  </tr>
+</table>
+
+<br><br>
+
+<table border>
+  <tr>
     <th>id</th>
     <th>名前</th>
     <th>著者</th>
     <th>出版社</th>
     <th>ステータス</th>
   </tr>
-
-  <tr>
-    <form method="post" action="create">
-      <td>**</td>
-      <td>
-        <input type="text" name="name" size='50'><br>
-        <input type="text" name="name_kana" id="name_kana" size='50'>
-      </td>
-      <td>
-        <select name="author_id">
-          <option>選択してください</option>
-          <% @authors.each do |author| %>
-            <%= "<option value='#{author.id}'>#{author.name}</option>" %>
-          <% end %>
-        </select>
-      </td>
-      <td>
-        <select name="publisher_id">
-          <option>選択してください</option>
-          <% @publishers.each do |publisher| %>
-            <%= "<option value='#{publisher.id}'>#{publisher.name}</option>" %>
-          <% end %>
-        </select>
-      </td>
-      <td>
-        <select name="status">
-          <% status_hash.each_pair do |k,v| %>
-            <%= "<option value='#{k}'>#{v}</option>" %>
-          <% end %>
-        </select>
-      </td>
-      <td>
-        <input type="submit" value="登録" style='width: 80px;' onClick="return KanaCheck();">
-        <input type="hidden" name="s" value="<%= params[:s] %>">
-      </td>
-    </form>
-  </tr>
-
   <% @books.each do |book| %>
     <% if book == @target_book %>
       <tr>
@@ -61,7 +128,7 @@
             <select name="author_id">
               <option>選択してください</option>
               <% @authors.each do |author| %>
-                <%= "<option value='#{author.id}'>#{author.name}</option>" %>
+                <%= "<option value='#{author.id}' #{(author.id == book.author_id) ? 'selected' : ''}>#{author.name}</option>" %>
               <% end %>
             </select>
           </td>
@@ -69,14 +136,14 @@
             <select name="publisher_id">
               <option>選択してください</option>
               <% @publishers.each do |publisher| %>
-                <%= "<option value='#{publisher.id}'>#{publisher.name}</option>" %>
+                <%= "<option value='#{publisher.id}' #{(publisher.id == book.publisher_id) ? 'selected' : ''}>#{publisher.name}</option>" %>
               <% end %>
             </select>
           </td>
           <td>
             <select name="status">
               <% status_hash.each_pair do |k,v| %>
-                <%= "<option value='#{k}' selected=#{k==book.status}>#{v}</option>" %>
+                <%= "<option value='#{k}' #{(k == book.status.to_s) ? 'selected' : ''}>#{v}</option>" %>
               <% end %>
             </select>
           </td>
@@ -84,7 +151,6 @@
             <input type="submit" name="update" value="修正" style='width: 80px;' onClick="return KanaCheck();">
             <input type="submit" name="cancel" value="キャンセル" style='width: 80px;'>
             <input type="hidden" name="id" value="<%= book.id %>">
-            <input type="hidden" name="s" value="<%= params[:s] %>">
           </td>
         </form>
         <form method="post" action="del">
@@ -92,7 +158,6 @@
             <input type="submit" value="削除" style='width: 80px;'>
             <input type="hidden" name="_method" value="delete">
             <input type="hidden" name="id" value="<%= book.id %>">
-            <input type="hidden" name="s" value="<%= params[:s] %>">
           </td>
         </form>
       </tr>
@@ -107,7 +172,6 @@
           <td>
             <input type="submit" value="編集 / 削除" style='width: 80px;' onClick="return KanaCheck();">
             <input type="hidden" name="id" value="<%= book.id %>">
-            <input type="hidden" name="s" value="<%= params[:s] %>">
           </td>
         </form>
       </tr>
