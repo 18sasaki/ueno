@@ -9,7 +9,7 @@
   </tr>
   <tr>
     <td>
-      <form method="post" action="">
+      <form method="post" action="search">
         <table>
           <tr>
             <td>頭文字</td>
@@ -17,26 +17,29 @@
               <select name="initial">
                 <option value=''></option>
                 <% initial_list.each do |i| %>
-                  <option value=<%= i %><%= ' selected=true' if params[:initial] == i %>><%= i %></option>
+                  <option value=<%= i %><%= ' selected=true' if session[:author] && session[:author]['initial'] == i %>><%= i %></option>
                 <% end %>
               </select>
             </td>
           </tr>
           <tr>
             <td>名前</td>
-            <td><input type="text" name="name" value=<%= params[:name] %>></td>
+            <td><input type="text" name="name" value=<%= session[:author] && session[:author]['name'] %>></td>
           </tr>
           <tr>
             <td>性別</td>
             <td>
               <select name="sex">
                 <% sex_hash.each_pair do |k,v| %>
-                  <option value=<%= k %><%= ' selected=true' if params[:sex] == k %>><%= v %></option>
+                  <option value=<%= k %><%= ' selected=true' if session[:author] && session[:author]['sex'] == k %>><%= v %></option>
                 <% end %>
               </select>
             </td>
           </tr>
-          <tr><td colspan=2 align=center><input type="submit" value="検索" style='width: 80px;'></td></tr>
+          <tr><td colspan=2 align=center>
+            <input type="submit" value="検索" style='width: 80px;', name='search'>
+            <input type="submit" value="クリア" style='width: 80px;', name='clear'>
+          </td></tr>
         </table>
       </form>
     </td>
@@ -111,6 +114,7 @@
           <td>
             <input type="submit" value="編集" style='width: 60px;'>
             <input type="hidden" name="id" value="<%= author.id %>">
+            <input type="hidden" name="name" value="<%= params[:name] %>">
           </td>
         </form>
         <form method="post" action="del">

@@ -18,6 +18,9 @@ Amazon::Ecs.configure do |options|
   options[:country] = 'jp'
 end
 
+enable :sessions
+set :session_secret, '18sasaki'
+
 # top
 get '/' do
   erb :index
@@ -30,13 +33,22 @@ get '/author' do
 end
 
 get '/author/' do
-  @authors = Author.get_all
+  @authors = Author.search(session[:author])
   erb :author_index
 end
 
 # 検索用
-post '/author/' do
-  @authors = Author.search(params)
+post '/author/search' do
+  if params[:search]
+    session[:author] = {}.tap do |ses|
+                         params.each do |k, v|
+                           ses[k] = v
+                         end
+                       end
+  else #params[:clear]
+    session[:author] = {}
+  end
+  @authors = Author.search(session[:author])
   erb :author_index
 end
 
@@ -54,23 +66,23 @@ end
 
 post '/author/create' do
   Author.new.insert_data(params)
-  redirect "/author?s=#{params[:s]}"
+  redirect "/author/"
 end
 
 get '/author/edit' do
   @target_author = Author.find(params[:id])
-  @authors = Author.get_all
+  @authors = Author.search(session[:author])
   erb :author_index
 end
 
 post '/author/update' do
   Author.find(params[:id]).insert_data(params) if params[:update]
-  redirect "/author?s=#{params[:s]}"
+  redirect "/author/"
 end
 
 delete '/author/del' do
   Author.find(params[:id]).destroy
-  redirect "/author?s=#{params[:s]}"
+  redirect "/author/"
 end
 
 

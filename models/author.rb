@@ -9,7 +9,11 @@ class Author < ActiveRecord::Base
   end
 
   def self.search(params)
-    Author.where(make_search_query(params)).order('name_kana')
+    if params.present?
+      Author.where(make_search_query(params)).order('name_kana')
+    else
+      Author.get_all
+    end
   end
 
   def self.get_initial_list
@@ -27,19 +31,19 @@ class Author < ActiveRecord::Base
     query_sql = []
     query_params = []
 
-    if params[:initial].present?
+    if params['initial'].present?
       query_sql << 'initial = ?'
-      query_params << params[:initial]
+      query_params << params['initial']
     end
 
-    if params[:name].present?
+    if params['name'].present?
       query_sql << '(name like ? or name_kana like ?)'
-      query_params << "%#{params[:name]}%" << "%#{params[:name]}%"
+      query_params << "%#{params['name']}%" << "%#{params['name']}%"
     end
 
-    if params[:sex].present? && params[:sex] != '0'
+    if params['sex'].present? && params['sex'] != '0'
       query_sql << 'sex = ?'
-      query_params << params[:sex]
+      query_params << params['sex']
     end
 
     query_params.unshift(query_sql.join(' and '))
