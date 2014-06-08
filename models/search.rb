@@ -4,19 +4,19 @@ class Search
 
   def self.search_by_isbn(isbn_str)
     if item = Amazon::Ecs.item_lookup(isbn_str, {IdType: 'ISBN', SearchIndex: 'Books', ResponseGroup: 'ItemAttributes'}).first_item
-      title, publisher = make_title_and_publisher(item.get('ItemAttributes/Title'))
+      title, label = make_title_and_label(item.get('ItemAttributes/Title'))
       {
-        isbn:           item.get('ItemAttributes/ISBN'),
-        title:          title,
-        author_name:    item.get('ItemAttributes/Author'),
-        publisher_name: publisher
+        isbn:        item.get('ItemAttributes/ISBN'),
+        title:       title,
+        author_name: item.get('ItemAttributes/Author'),
+        label_name:  label
       }
     else
       {}
     end
   end
 
-  def self.make_title_and_publisher(amazon_title)
+  def self.make_title_and_label(amazon_title)
     amazon_title =~ /^(.+)\(([^\)]+)\)$/
     return $1, $2
   end
@@ -28,10 +28,10 @@ class Search
     author_data.id if author_data
   end
 
-  def self.get_publisher_id(name)
-    publisher_data = Publisher.find_by_name(name.gsub(/\s/, ''))
+  def self.get_label_id(name)
+    label_data = Label.find_by_name(name.gsub(/\s/, ''))
 
     # 同名社はないものとする
-    publisher_data.id if publisher_data
+    label_data.id if label_data
   end
 end

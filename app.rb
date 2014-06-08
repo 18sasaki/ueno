@@ -78,35 +78,35 @@ delete '/author/del' do
 end
 
 
-# publisher
-get '/publisher' do
-  redirect '/publisher/'
+# label
+get '/label' do
+  redirect '/label/'
 end
 
-get '/publisher/' do
-  @publishers = Publisher.get_all
-  erb :publisher_index
+get '/label/' do
+  @labels = Label.get_all
+  erb :label_index
 end
 
-post '/publisher/create' do
-  Publisher.new.insert_data(params)
-  redirect '/publisher/'
+post '/label/create' do
+  Label.new.insert_data(params)
+  redirect '/label/'
 end
 
-get '/publisher/edit' do
-  @target_publisher = Publisher.find(params[:id])
-  @publishers = Publisher.get_all
-  erb :publisher_index
+get '/label/edit' do
+  @target_label = Label.find(params[:id])
+  @labels = Label.get_all
+  erb :label_index
 end
 
-post '/publisher/update' do
-  Publisher.find(params[:id]).insert_data(params) if params[:update]
-  redirect '/publisher/'
+post '/label/update' do
+  Label.find(params[:id]).insert_data(params) if params[:update]
+  redirect '/label/'
 end
 
-delete '/publisher/del' do
-  Publisher.find(params[:id]).destroy
-  redirect '/publisher/'
+delete '/label/del' do
+  Label.find(params[:id]).destroy
+  redirect '/label/'
 end
 
 
@@ -118,7 +118,7 @@ end
 get '/book/' do
   @books = Book.search(session[:book])
   @authors = Author.get_all
-  @publishers = Publisher.get_all
+  @labels = Label.get_all
   erb :book_index
 end
 
@@ -127,7 +127,7 @@ post '/book/' do
   session[:book] = params[:search_button] ? params_to_session(params) : {}
   @books = Book.search(session[:book])
   @authors = Author.get_all
-  @publishers = Publisher.get_all
+  @labels = Label.get_all
   erb :book_index
 end
 
@@ -140,7 +140,7 @@ get '/book/edit' do
   @target_book = Book.find(params[:id])
   @books = Book.search(session[:book])
   @authors = Author.get_all
-  @publishers = Publisher.get_all
+  @labels = Label.get_all
   erb :book_index
 end
 
@@ -177,8 +177,8 @@ end
 get '/search/book_register' do
   @author_id = params[:author_id].presence || Search.get_author_id(params[:author_name])
   @authors = Author.get_all
-  @publisher_id = params[:publisher_id].presence || Search.get_publisher_id(params[:publisher_name])
-  @publishers = Publisher.get_all
+  @label_id = params[:label_id].presence || Search.get_label_id(params[:label_name])
+  @labels = Label.get_all
   erb :search_book_register
 end
 
@@ -188,9 +188,9 @@ post '/search/author_register' do
   redirect "/search/book_register?#{data_to_query(new_params)}"
 end
 
-post '/search/publisher_register' do
-  new_publisher = Publisher.new.insert_data(params)
-  new_params = params['original'].merge({publisher_id: new_publisher.id, publisher_name: new_publisher.name})
+post '/search/label_register' do
+  new_label = Label.new.insert_data(params)
+  new_params = params['original'].merge({label_id: new_label.id, label_name: new_label.name})
   redirect "/search/book_register?#{data_to_query(new_params)}"
 end
 
@@ -229,12 +229,12 @@ get '/api/set_author' do
   end
 end
 
-get '/api/get_all_publishers' do
-  json ({}.tap { |ret_hash| Publisher.get_all.each { |publisher| ret_hash[publisher.id] = publisher.attributes } })
+get '/api/get_all_labels' do
+  json ({}.tap { |ret_hash| Label.get_all.each { |label| ret_hash[label.id] = label.attributes } })
 end
 
-get '/api/get_publisher' do
-  return_attributes(Publisher.find(params[:id]))
+get '/api/get_label' do
+  return_attributes(Label.find(params[:id]))
 end
 
 get '/api/get_all_books' do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140326132152) do
+ActiveRecord::Schema.define(version: 20140608081035) do
 
   create_table "authors", force: true do |t|
     t.string  "name"
@@ -21,13 +21,13 @@ ActiveRecord::Schema.define(version: 20140326132152) do
 
   create_table "books", force: true do |t|
     t.string  "name"
-    t.string  "name_kana"
-    t.integer "publisher_id"
+    t.integer "label_id"
     t.integer "author_id"
     t.integer "status"
+    t.integer "isbn"
   end
 
-  create_table "publishers", force: true do |t|
+  create_table "labels", force: true do |t|
     t.string "name"
     t.string "name_kana"
   end

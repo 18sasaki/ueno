@@ -6,11 +6,11 @@ function changeAuthor() {
 　document.getElementById('author_name').innerHTML = author_item.text;
 　document.getElementById('hidden_author_id').innerHTML = author_item.value;
 }
-function changePublisher() {
-  var publisher_select = document.getElementById('publisher_select');
-  var publisher_item = publisher_select.options.item(publisher_select.selectedIndex)
-　document.getElementById('publisher_name').innerHTML = publisher_item.text;
-　document.getElementById('hidden_publisher_id').innerHTML = publisher_item.value;
+function changeLabel() {
+  var label_select = document.getElementById('label_select');
+  var label_item = label_select.options.item(label_select.selectedIndex)
+　document.getElementById('label_name').innerHTML = label_item.text;
+　document.getElementById('hidden_label_id').innerHTML = label_item.value;
 }
 // -->
 </script>
@@ -20,7 +20,7 @@ function changePublisher() {
 </div>
 
 <div id="show_div">
-  <% book_register_flg = @author_id && @publisher_id %>
+  <% book_register_flg = @author_id && @label_id %>
   <% if book_register_flg %>
     <form method="post" action="book_register">
   <% else %>
@@ -35,8 +35,7 @@ function changePublisher() {
         <th>タイトル</th>
         <td>
           <% if book_register_flg %>
-            <input type="text" name="name" value='<%= params[:title] %>' size='50'><br>
-            かな：<input type="text" name="name_kana" id="name_kana" size='50'>
+            <input type="text" name="name" value='<%= params[:title] %>' size='50'>
           <% else %>
             <%= params[:title] %>
           <% end %>
@@ -76,8 +75,8 @@ function changePublisher() {
               </table>
               <input type="hidden" name="original[isbn]" value='<%= params[:isbn] %>'>
               <input type="hidden" name="original[title]" value='<%= params[:title] %>'>
-              <input type="hidden" name="original[publisher_id]" value='<%= @publisher_id %>'>
-              <input type="hidden" name="original[publisher_name]" value='<%= params[:publisher_name] %>'>
+              <input type="hidden" name="original[label_id]" value='<%= @label_id %>'>
+              <input type="hidden" name="original[label_name]" value='<%= params[:label_name] %>'>
             </form>
             <hr>
             <!-- 登録済の著者から選ぶ場合：
@@ -94,23 +93,23 @@ function changePublisher() {
       <tr>
         <th>出版社</th>
         <td>
-          <% if @publisher_id %>
-            <div id='publisher_name'><%= params[:publisher_name] %></div>
-            <input id='hidden_publisher_id' type="hidden" name="publisher_id" value='<%= @publisher_id %>'>
+          <% if @label_id %>
+            <div id='label_name'><%= params[:label_name] %></div>
+            <input id='hidden_label_id' type="hidden" name="label_id" value='<%= @label_id %>'>
             (変更：
-              <select id='publisher_select'>
+              <select id='label_select'>
                 <option value=''>選択してください</option>
-                <% @publishers.each do |publisher| %>
-                  <%= "<option value='#{publisher.id}'>#{publisher.name}</option>" %>
+                <% @labels.each do |label| %>
+                  <%= "<option value='#{label.id}'>#{label.name}</option>" %>
                 <% end %>
               </select>
-              <input type="button" name="change_publisher" id="change_publisher" value="変更する" onclick="changePublisher()" />
+              <input type="button" name="change_label" id="change_label" value="変更する" onclick="changeLabel()" />
             )
           <% else %>
-            <form method="post" action="publisher_register">
+            <form method="post" action="label_register">
               出版社を新規登録する場合：
               <table>
-                <tr><td>名前</td><td><input type="text" name="name" value="<%= params[:publisher_name] %>"></td></tr>
+                <tr><td>名前</td><td><input type="text" name="name" value="<%= params[:label_name] %>"></td></tr>
                 <tr><td>かな</td><td><input type="text" name="name_kana" id="name_kana"></td></tr>
                 <tr><td colspan=2><input type="submit" value="登録" style='width: 80px;' onClick="return KanaCheck();"></td></tr>
               </table>
@@ -121,10 +120,10 @@ function changePublisher() {
             </form>
             <hr>
             <!-- 登録済の出版社から選ぶ場合：
-            <form method="post" action="change_publisher">
-              <select name="publisher_id">
-                <% @publishers.each do |publisher| %>
-                  <%= "<option value='#{publisher.id}'>#{publisher.name}</option>" %>
+            <form method="post" action="change_label">
+              <select name="label_id">
+                <% @labels.each do |label| %>
+                  <%= "<option value='#{label.id}'>#{label.name}</option>" %>
                 <% end %>
               </select>
               <input type="submit" value="決定" style='width: 80px;'>
