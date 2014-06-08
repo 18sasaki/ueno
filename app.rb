@@ -166,7 +166,7 @@ end
 
 post '/search/' do
   formatted_isbn = if params[:isbn_13].present?
-                     '978' + params[:isbn].gsub(/[^0-9X]/, '')
+                     '978' + params[:isbn_13].gsub(/[^0-9X]/, '')
                    else
                      params[:isbn_10].gsub(/[^0-9X]/, '')
                    end
