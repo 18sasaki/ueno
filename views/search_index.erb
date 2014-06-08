@@ -6,8 +6,14 @@
 <form method="post">
   <table border>
     <tr>
-      <td>ISBN</td>
-      <td><input type="text" name="isbn" value=<%= @data ? @data[:isbn] : '' %>></td>
+      <td align=right>
+        ISBN 10桁<br>
+             13桁
+      </td>
+      <td align=right>
+            <input type="text" name="isbn_10" value=<%= params ? params[:isbn_10] : '' %>><br>
+        978-<input type="text" name="isbn_13" value=<%= params ? params[:isbn_13] : '' %>>
+      </td>
     </tr>
     <tr>
       <td colspan=2>
