@@ -9,7 +9,7 @@
   </tr>
   <tr>
     <td>
-      <form method="post">
+      <form method="post" action="/author/">
         <table>
           <tr>
             <td>頭文字</td>
@@ -17,21 +17,21 @@
               <select name="initial">
                 <option value=''></option>
                 <% initial_list.each do |i| %>
-                  <option value=<%= i %><%= ' selected=true' if session[:author] && session[:author]['initial'] == i %>><%= i %></option>
+                  <option value='<%= i %>'<%= ' selected=true' if session[:author] && session[:author]['initial'] == i %>><%= i %></option>
                 <% end %>
               </select>
             </td>
           </tr>
           <tr>
             <td>名前</td>
-            <td><input type="text" name="name" value=<%= session[:author] && session[:author]['name'] %>></td>
+            <td><input type="text" name="name" value='<%= session[:author] && session[:author]['name'] %>'></td>
           </tr>
           <tr>
             <td>性別</td>
             <td>
               <select name="sex">
                 <% sex_hash.each_pair do |k,v| %>
-                  <option value=<%= k %><%= ' selected=true' if session[:author] && session[:author]['sex'] == k %>><%= v %></option>
+                  <option value='<%= k %>'<%= ' selected=true' if session[:author] && session[:author]['sex'] == k %>><%= v %></option>
                 <% end %>
               </select>
             </td>
@@ -59,7 +59,7 @@
             <td>
               <select name="sex">
                 <% sex_hash.each_pair do |k,v| %>
-                  <option value=<%= k %>><%= v %></option>
+                  <option value='<%= k %>'><%= v %></option>
                 <% end %>
               </select>
             </td>
@@ -87,8 +87,8 @@
         <form method="post" action="update">
           <td><%= author.id %></td>
           <td><%= author.initial %></td>
-          <td><input type="text" name="name" value=<%= author.name %>></td>
-          <td><input type="text" name="name_kana" value=<%= author.name_kana %>></td>
+          <td><input type="text" name="name" value='<%= author.name %>'></td>
+          <td><input type="text" name="name_kana" value='<%= author.name_kana %>'></td>
           <td>
             <select name="sex">
               <% sex_hash.each_pair do |k,v| %>

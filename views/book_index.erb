@@ -9,7 +9,7 @@
   </tr>
   <tr>
     <td>
-      <form method="post">
+      <form method="post" action="/book/">
         <table>
           <tr>
             <td>名前</td>
@@ -21,7 +21,7 @@
               <select name="author_id">
                 <option value=''></option>
                 <% @authors.each do |author| %>
-                  <option value=<%= author.id %><%= ' selected=true' if session[:book] && session[:book]['author_id'].to_i == author.id %>><%= author.name %></option>
+                  <option value='<%= author.id %>'<%= ' selected=true' if session[:book] && session[:book]['author_id'].to_i == author.id %>><%= author.name %></option>
                 <% end %>
               </select>
             </td>
@@ -32,7 +32,7 @@
               <select name="publisher_id">
                 <option value=''></option>
                 <% @publishers.each do |publisher| %>
-                  <option value=<%= publisher.id %><%= ' selected=true' if session[:book] && session[:book]['publisher_id'].to_i == publisher.id %>><%= publisher.name %></option>
+                  <option value='<%= publisher.id %>'<%= ' selected=true' if session[:book] && session[:book]['publisher_id'].to_i == publisher.id %>><%= publisher.name %></option>
                 <% end %>
               </select>
             </td>
@@ -43,7 +43,7 @@
               <select name="status">
                 <option value=''></option>
                 <% status_hash.each_pair do |k,v| %>
-                  <option value=<%= k %><%= ' selected=true' if session[:book] && session[:book]['status'] == k %>><%= v %></option>
+                  <option value='<%= k %>'<%= ' selected=true' if session[:book] && session[:book]['status'] == k %>><%= v %></option>
                 <% end %>
               </select>
             </td>
@@ -121,8 +121,8 @@
         <form method="post" action="update">
           <td><%= book.id %></td>
           <td>
-            <input type="text" name="name" size='50' value=<%= book.name %>><br>
-            <input type="text" name="name_kana" size='50' value=<%= book.name_kana %>>
+            <input type="text" name="name" size='50' value='<%= book.name %>'><br>
+            <input type="text" name="name_kana" size='50' value='<%= book.name_kana %>'>
           </td>
           <td>
             <select name="author_id">
