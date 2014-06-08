@@ -3,15 +3,22 @@ class Search
   extend RaiseCatch
 
   def self.search_by_isbn(isbn_str)
-    item = Amazon::Ecs.item_lookup(isbn_str, {IdType: 'ISBN', SearchIndex: 'Books', ResponseGroup: 'ItemAttributes'}).first_item
+    if item = Amazon::Ecs.item_lookup(isbn_str, {IdType: 'ISBN', SearchIndex: 'Books', ResponseGroup: 'ItemAttributes'}).first_item
+      title, publisher = make_title_and_publisher(item.get('ItemAttributes/Title'))
+      {
+        isbn:           item.get('ItemAttributes/ISBN'),
+        title:          title,
+        author_name:    item.get('ItemAttributes/Author'),
+        publisher_name: publisher
+      }
+    else
+      {}
+    end
+  end
 
-    {
-      isbn_str:       isbn_str,
-      isbn:           item.get('ItemAttributes/ISBN'),
-      title:          item.get('ItemAttributes/Title'),
-      author_name:    item.get('ItemAttributes/Author'),
-      publisher_name: item.get('ItemAttributes/Manufacturer')
-    }
+  def self.make_title_and_publisher(amazon_title)
+    amazon_title =~ /^(.+)\(([^\)]+)\)$/
+    return $1, $2
   end
 
   def self.get_author_id(name)
