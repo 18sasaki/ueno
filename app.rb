@@ -245,6 +245,56 @@ get '/api/get_book' do
   return_attributes(Book.find(params[:id]))
 end
 
+post '/api/register_book' do
+  # {
+  #   book: {
+  #     name: xxx,
+  #     isbn: xxx,
+  #     label_id: xxx,
+  #     author_id: xxx,
+  #     status: xxx
+  #   },
+  #   author: {},
+  #   label: {}
+  # }
+
+  # 必須パラメータ確認
+  if (luck_params = [:name, :isbn, :status] - params[:book].keys).empty?
+    return json { error: "#{luck_params.join(',')} is required !" }
+  end
+
+  # author確認
+  unless params[:book][:author_id]
+    begin
+      if author_params = params[:author]
+        new_author = Author.new.insert_data(author_params)
+        params[:book][:author_id] = new_author.id
+      else
+        return json { error: "author data is required !" }
+      end
+    rescue => e
+      return json { error: "new author(#{params[:author]}) couldn't create. error : #{e}" }
+    end
+  end
+
+  # label確認
+  unless params[:book][:label_id]
+    begin
+      if label_params = params[:label]
+        new_label = Label.new.insert_data(label_params)
+        params[:book][:label_id] = new_label.id
+      else
+        return json { error: "label data is required !" }
+      end
+    rescue => e
+      return json { error: "new label(#{params[:label]}) couldn't create. error : #{e}" }
+    end
+  end
+
+  new_book = Book.new.insert_data(params[:book])
+  return_attributes(new_book)
+end
+
 
 
 helpers do
