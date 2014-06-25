@@ -24,7 +24,6 @@
 </form>
 
 <% if @data %>
-  <div><%= @data %></div>
   ---------------- 検索結果 ----------------
   <div id="search_result">
     <table border>
@@ -41,8 +40,10 @@
         <th>出版社</th>
         <td><%= @data[:label_name] %></td>
     </table>
-    <a href='/search/book_register?<%= data_to_query(@data) %>'>登録画面へ</a>
+    <% if registered_title = @data[:registered_title] %>
+      登録済です（登録タイトル：<%= registered_title %>）
+    <% else %>
+      <a href='/search/book_register?<%= data_to_query(@data) %>'>登録画面へ</a>
+    <% end %>
   </div>
-<% else %>
-  <div>Please Search !!!</div>
 <% end %>

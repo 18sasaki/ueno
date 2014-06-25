@@ -18,6 +18,10 @@ class Book < ActiveRecord::Base
     Book.all.order('name')
   end
 
+  def self.get_by_isbn(isbn)
+    Book.find_by_isbn(isbn)
+  end
+
   def self.make_search_query(params)
     query_sql = []
     query_params = []
