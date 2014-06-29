@@ -1,3 +1,19 @@
+<script type="text/javascript">
+  <!--
+    function SelectCheck() {
+      var authorSelectIndex = document.getElementById('author_select').selectedIndex;
+      var labelSelectIndex = document.getElementById('label_select').selectedIndex;
+
+      if( authorSelectIndex == 0 || labelSelectIndex == 0 ) {
+        alert("未選択項目があります");
+        return false;
+      } else {
+        return true;
+      }
+    }
+  // -->
+</script>
+
 <div align='center'>
   <h2>Book</h2>
 </div>
@@ -65,7 +81,7 @@
           <tr>
             <td>著者</td>
             <td>
-              <select name="author_id">
+              <select id='author_select' name="author_id">
                 <option>選択してください</option>
                 <% @authors.each do |author| %>
                   <%= "<option value='#{author.id}'>#{author.name}</option>" %>
@@ -76,7 +92,7 @@
           <tr>
             <td>出版社</td>
             <td>
-              <select name="label_id">
+              <select id='label_select' name="label_id">
                 <option>選択してください</option>
                 <% @labels.each do |label| %>
                   <%= "<option value='#{label.id}'>#{label.name}</option>" %>
@@ -94,7 +110,7 @@
               </select>
             </td>
           </tr>
-          <tr><td colspan=2 align=center><input type="submit" value="登録" style='width: 80px;'></td></tr>
+          <tr><td colspan=2 align=center><input type="submit" value="登録" style='width: 80px;' onClick="return SelectCheck();"></td></tr>
         </table>
       </form>
     </td>
