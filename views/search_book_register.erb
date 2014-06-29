@@ -4,13 +4,13 @@ function changeAuthor() {
   var author_select = document.getElementById('author_select');
   var author_item = author_select.options.item(author_select.selectedIndex)
 　document.getElementById('author_name').innerHTML = author_item.text;
-　document.getElementById('hidden_author_id').innerHTML = author_item.value;
+　document.getElementById('hidden_author_id').value = author_item.value;
 }
 function changeLabel() {
   var label_select = document.getElementById('label_select');
   var label_item = label_select.options.item(label_select.selectedIndex)
 　document.getElementById('label_name').innerHTML = label_item.text;
-　document.getElementById('hidden_label_id').innerHTML = label_item.value;
+　document.getElementById('hidden_label_id').value = label_item.value;
 }
 // -->
 </script>
