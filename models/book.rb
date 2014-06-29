@@ -6,6 +6,8 @@ class Book < ActiveRecord::Base
 
   extend RaiseCatch
 
+  Required = ['name', 'isbn', 'label_id', 'author_id', 'status']
+
   def self.search(params)
     if params.present?
       Book.where(make_search_query(params)).order('name')
