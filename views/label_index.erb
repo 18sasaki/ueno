@@ -4,20 +4,50 @@
 
 <table border>
   <tr>
+    <th align=center>検索</td>
+    <th align=center>登録</td>
+  </tr>
+  <tr>
+    <td>
+      <form method="post" action="/label/">
+        <table>
+          <tr>
+            <td>名前</td>
+            <td><input type="text" name="name" value='<%= session[:label] && session[:label]['name'] %>'></td>
+          </tr>
+          <tr><td colspan=2 align=center>
+            <input type="submit" value="検索" style='width: 80px;', name='search_button'>
+            <input type="submit" value="クリア" style='width: 80px;', name='clear_button'>
+          </td></tr>
+        </table>
+      </form>
+    </td>
+    <td>
+      <form method="post" action="create">
+        <table>
+          <tr>
+            <td>名前</td>
+            <td><input type="text" name="name" id="name"></td>
+          </tr>
+          <tr>
+            <td>かな</td>
+            <td><input type="text" name="name_kana" id="name_kana"></td>
+          </tr>
+          <tr><td colspan=2 align=center><input type="submit" value="登録" style='width: 80px;' onClick="return CreateCheck();"></td></tr>
+        </table>
+      </form>
+    </td>
+  </tr>
+</table>
+
+<br><br>
+
+<table border>
+  <tr>
     <th>id</th>
     <th>名前</th>
     <th>かな</th>
   </tr>
-
-  <tr>
-    <form method="post" action="create">
-      <td>**</td>
-      <td><input type="text" name="name"></td>
-      <td><input type="text" name="name_kana" id="name_kana"></td>
-      <td><input type="submit" value="登録" style='width: 80px;'></td>
-    </form>
-  </tr>
-
   <% @labels.each do |label| %>
     <% if label == @target_label %>
       <tr>
@@ -53,14 +83,5 @@
       </tr>
     <% end %>
   <% end %>
-
-  <tr>
-    <form method="post" action="create">
-      <td>**</td>
-      <td><input type="text" name="name"></td>
-      <td><input type="text" name="name_kana" id="name_kana"></td>
-      <td><input type="submit" value="登録" style='width: 80px;'></td>
-    </form>
-  </tr>
 </table>
 

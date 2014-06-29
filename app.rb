@@ -88,6 +88,13 @@ get '/label/' do
   erb :label_index
 end
 
+# 検索用
+post '/label/' do
+  session[:label] = params[:search_button] ? params_to_session(params) : {}
+  @labels = Label.search(session[:label])
+  erb :label_index
+end
+
 post '/label/create' do
   Label.new.insert_data(params)
   redirect '/label/'
