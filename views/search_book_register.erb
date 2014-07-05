@@ -57,7 +57,6 @@ function changeLabel() {
             )
           <% else %>
             <form method="post" action="author_register">
-              著者を新規登録する場合：
               <table>
                 <tr><td>名前</td><td><input type="text" name="name" value="<%= params[:author_name] %>"></td></tr>
                 <tr><td>かな</td><td><input type="text" name="name_kana" id="name_kana"></td></tr>
@@ -79,15 +78,6 @@ function changeLabel() {
               <input type="hidden" name="original[label_name]" value='<%= params[:label_name] %>'>
             </form>
             <hr>
-            <!-- 登録済の著者から選ぶ場合：
-            <form method="post" action="change_author">
-              <select name="author_id">
-                <% @authors.each do |author| %>
-                  <%= "<option value='#{author.id}'>#{author.name}</option>" %>
-                <% end %>
-              </select>
-              <input type="submit" value="決定" style='width: 80px;'>
-            </form> -->
           <% end %>
         </td>
       <tr>
@@ -107,7 +97,6 @@ function changeLabel() {
             )
           <% else %>
             <form method="post" action="label_register">
-              出版社を新規登録する場合：
               <table>
                 <tr><td>名前</td><td><input type="text" name="name" value="<%= params[:label_name] %>"></td></tr>
                 <tr><td>かな</td><td><input type="text" name="name_kana" id="name_kana"></td></tr>
@@ -119,15 +108,6 @@ function changeLabel() {
               <input type="hidden" name="original[author_name]" value='<%= params[:author_name] %>'>
             </form>
             <hr>
-            <!-- 登録済の出版社から選ぶ場合：
-            <form method="post" action="change_label">
-              <select name="label_id">
-                <% @labels.each do |label| %>
-                  <%= "<option value='#{label.id}'>#{label.name}</option>" %>
-                <% end %>
-              </select>
-              <input type="submit" value="決定" style='width: 80px;'>
-            </form> -->
           <% end %>
         </td>
       </tr>
