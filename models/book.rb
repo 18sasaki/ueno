@@ -51,6 +51,15 @@ class Book < ActiveRecord::Base
     query_params.unshift(query_sql.join(' and '))
   end
 
+  def self.change_status(target_id, new_status)
+    target = Book.find(target_id)
+    target.status = new_status
+    target.save
+    { status: new_status }
+  rescue => e
+    { error: e }
+  end
+
   def insert_data(params)
     self.name      = params[:name]
     self.isbn      = params[:isbn]

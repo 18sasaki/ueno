@@ -252,6 +252,11 @@ get '/api/get_book' do
   return_attributes(Book.find(params[:id]))
 end
 
+post '/api/change_book_status' do
+  result = Book.change_status(params[:id], params[:new_status])
+  json { error: result[:error], status: result[:status] }
+end
+
 post '/api/register_book' do
   # 必須パラメータ確認
   check_params(params, 'book')
