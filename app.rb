@@ -252,8 +252,9 @@ get '/api/get_book' do
   return_attributes(Book.find(params[:id]))
 end
 
-post '/api/change_book_status' do
-  json Book.change_status(params[:id], params[:new_status])
+get '/api/change_book_status' do
+  result = Book.change_status(params[:id], params[:new_status])
+  json ({error: result[:error], status: status_translate(result[:status]), next_status_id: get_next_status_id(result[:status].to_i)})
 end
 
 post '/api/register_book' do
@@ -281,6 +282,20 @@ helpers do
 
   def status_translate(status_int)
     status_hash[status_int.to_s]
+  end
+
+  def get_next_status_id(current_status_id)
+    case current_status_id
+    when 0 then 1
+    when 1 then 2
+    when 2 then 3
+    when 3 then 0
+    end
+  end
+
+  def get_status_and_next_id(status_int)
+    next_status_id = get_next_status_id(status_int)
+    return [status_translate(status_int), next_status_id]
   end
 
   def initial_list

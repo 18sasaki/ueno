@@ -11,6 +11,26 @@
         return true;
       }
     }
+
+    function changeStatus(id) {
+      next_status_id = $('#next_status_id_' + id).val();
+      $.ajax({
+        type: 'GET',
+        url: '/api/change_book_status?id=' + id + '&new_status=' + next_status_id,
+        dataType: 'json',
+        success: function(ret) {
+          if(ret.error) {
+            alert('エラーが発生しました： ' + ret.error);
+          } else {
+            $('#book_status_' + id).html(ret.status);
+            $('#next_status_id_' + id).val(ret.next_status_id);
+          }
+        },
+        error: function() {
+          alert('エラーが発生しました');
+        }
+      });
+    };
   // -->
 </script>
 
@@ -126,7 +146,7 @@
     <th>名前</th>
     <th>著者</th>
     <th>出版社</th>
-    <th>ステータス</th>
+    <th colspan=2>ステータス</th>
   </tr>
   <% @books.each do |book| %>
     <% if book == @target_book %>
@@ -153,7 +173,7 @@
               <% end %>
             </select>
           </td>
-          <td>
+          <td colspan=2>
             <select name="status">
               <% status_hash.each_pair do |k,v| %>
                 <%= "<option value='#{k}' #{(k == book.status.to_s) ? 'selected' : ''}>#{v}</option>" %>
@@ -181,7 +201,12 @@
         <td><%= book.name %></td>
         <td><%= book.author.name %></td>
         <td><%= book.label.name %></td>
-        <td><%= status_translate(book.status) %></td>
+        <% status_str, next_id = get_status_and_next_id(book.status) %>
+        <td id='book_status_<%= book.id %>'><%= status_str %></td>
+        <td>
+          <input type="button" name="change_status", value="※" style='width: 20px;' onClick="changeStatus(<%= book.id %>);">
+          <input type="hidden" name="next_status_id", id='next_status_id_<%= book.id %>' value="<%= next_id %>">
+        </td>
         <form method="get" action="edit">
           <td>
             <input type="submit" value="編集 / 削除" style='width: 80px;'>
