@@ -253,8 +253,7 @@ get '/api/get_book' do
 end
 
 post '/api/change_book_status' do
-  result = Book.change_status(params[:id], params[:new_status])
-  json { error: result[:error], status: result[:status] }
+  json Book.change_status(params[:id], params[:new_status])
 end
 
 post '/api/register_book' do
