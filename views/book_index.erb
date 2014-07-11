@@ -183,7 +183,8 @@
           <td>
             <input type="submit" name="update" value="修正" style='width: 60px;' onClick="return KanaCheck();"><br>
             <input type="submit" name="cancel" value="取消" style='width: 60px;'>
-            <input type="hidden" name="id" value="<%= book.id %>">
+            <input type="hidden" name="id"     value="<%= book.id %>">
+            <input type="hidden" name="isbn"   value="<%= book.isbn %>">
           </td>
         </form>
       </tr>
