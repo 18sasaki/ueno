@@ -181,15 +181,8 @@
             </select>
           </td>
           <td>
-            <input type="submit" name="update" value="修正" style='width: 80px;' onClick="return KanaCheck();">
-            <input type="submit" name="cancel" value="キャンセル" style='width: 80px;'>
-            <input type="hidden" name="id" value="<%= book.id %>">
-          </td>
-        </form>
-        <form method="post" action="del">
-          <td>
-            <input type="submit" value="削除" style='width: 80px;'>
-            <input type="hidden" name="_method" value="delete">
+            <input type="submit" name="update" value="修正" style='width: 60px;' onClick="return KanaCheck();"><br>
+            <input type="submit" name="cancel" value="取消" style='width: 60px;'>
             <input type="hidden" name="id" value="<%= book.id %>">
           </td>
         </form>
@@ -207,12 +200,21 @@
           <input type="button" name="change_status", value="※" style='width: 20px;' onClick="changeStatus(<%= book.id %>);">
           <input type="hidden" name="next_status_id", id='next_status_id_<%= book.id %>' value="<%= next_id %>">
         </td>
-        <form method="get" action="edit">
-          <td>
-            <input type="submit" value="編集 / 削除" style='width: 80px;'>
-            <input type="hidden" name="id" value="<%= book.id %>">
-          </td>
-        </form>
+        <% unless @target_book %>
+          <form method="get" action="edit">
+            <td>
+              <input type="submit" value="編集" style='width: 60px;'>
+              <input type="hidden" name="id" value="<%= book.id %>">
+            </td>
+          </form>
+          <form method="post" action="del">
+            <td>
+              <input type="submit" value="削除" style='width: 60px;', onClick="return confirm('削除します。よろしいですか？');">
+              <input type="hidden" name="_method" value="delete">
+              <input type="hidden" name="id" value="<%= book.id %>">
+            </td>
+          </form>
+        <% end %>
       </tr>
     <% end %>
   <% end %>
