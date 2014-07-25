@@ -24,26 +24,30 @@
 </form>
 
 <% if @data %>
-  ---------------- 検索結果 ----------------
-  <div id="search_result">
-    <table border>
-      <tr>
-        <th>ISBN</th>
-        <td><%= @data[:isbn] %></td>
-      <tr>
-        <th>タイトル</th>
-        <td><%= @data[:title] %></td>
-      <tr>
-        <th>著者名</th>
-        <td><%= @data[:author_name] %></td>
-      <tr>
-        <th>出版社</th>
-        <td><%= @data[:label_name] %></td>
-    </table>
-    <% if registered_title = @data[:registered_title] %>
-      登録済です（登録タイトル：<%= registered_title %>）
-    <% else %>
-      <a href='/search/book_register?<%= data_to_query(@data) %>'>登録画面へ</a>
-    <% end %>
-  </div>
+  <% if @data[:error] %>
+    ERROR! : <%= @data[:error] %>
+  <% else %>
+    ---------------- 検索結果 ----------------
+    <div id="search_result">
+      <table border>
+        <tr>
+          <th>ISBN</th>
+          <td><%= @data[:isbn] %></td>
+        <tr>
+          <th>タイトル</th>
+          <td><%= @data[:title] %></td>
+        <tr>
+          <th>著者名</th>
+          <td><%= @data[:author_name] %></td>
+        <tr>
+          <th>出版社</th>
+          <td><%= @data[:label_name] %></td>
+      </table>
+      <% if registered_title = @data[:registered_title] %>
+        登録済です（登録タイトル：<%= registered_title %>）
+      <% else %>
+        <a href='/search/book_register?<%= data_to_query(@data) %>'>登録画面へ</a>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>

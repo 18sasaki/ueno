@@ -1,9 +1,20 @@
+#coding: utf-8
 
 class Search
   extend RaiseCatch
 
   def self.search_by_isbn(isbn_str)
-    if item = Amazon::Ecs.item_lookup(isbn_str, {IdType: 'ISBN', SearchIndex: 'Books', ResponseGroup: 'ItemAttributes'}).first_item
+    begin
+      item = Amazon::Ecs.item_lookup(isbn_str, {IdType: 'ISBN', SearchIndex: 'Books', ResponseGroup: 'ItemAttributes'}).first_item
+    rescue SocketError => e
+      p ">>>>>>>>>>>>> error : #{e}"
+      return { error: 'amazonへの問い合わせ中にエラーが発生しました' }
+    rescue => e
+      p ">>>>>>>>>>>>> error : #{e}"
+      return { error: 'エラーが発生しました' }
+    end
+
+    if item
       title, label = make_title_and_label(item.get('ItemAttributes/Title'))
       isbn = item.get('ItemAttributes/ISBN')
       registered_book = Book.get_by_isbn(isbn)
@@ -15,7 +26,7 @@ class Search
         registered_title: (registered_book ? registered_book.name : nil)
       }
     else
-      {}
+      { error: '該当する書籍が見つかりませんでした' }
     end
   end
 
