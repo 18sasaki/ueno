@@ -8,7 +8,6 @@ require 'amazon/ecs'
 
 ActiveRecord::Base.establish_connection(ENV['DATABASE_URL'] || 'sqlite3://localhost/myapp.db')
 
-require_relative 'models/raise_catch'
 require_relative 'models/init'
 
 Amazon::Ecs.configure do |options|
@@ -316,5 +315,15 @@ helpers do
         ses[k] = v
       end
     end
+  end
+
+  def nav_link_set
+    [
+      ['Top', '/'],
+      ['Author', '/author/'],
+      ['Label', '/label/'],
+      ['Book', '/book/'],
+      ['Search', '/search/']
+    ]
   end
 end

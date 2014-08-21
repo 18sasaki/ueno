@@ -35,19 +35,24 @@
     <meta charset="utf-8">
     <title>UenoAPI</title>
     <script src="/js/jquery-1.11.1.js"></script>
+    <link href="/css/bootstrap.css" rel="stylesheet">
   </head>
   <body>
-    <table>
-      <tr>
-        <td><a href='/'>TOP</a></td>
-        <td> | </td>
-        <td><a href='/author/'>Author</a></td>
-        <td><a href='/label/'>Label</a></td>
-        <td><a href='/book/'>Book</a></td>
-        <td> | </td>
-        <td><a href='/search/'>Search</a></td>
-      </tr>
-    </table>
-    <%= yield %>
+    <div class='head'>
+      <ul class="nav nav-tabs" role="tablist">
+        <% nav_link_set.each do |link_data| %>
+          <% if link_data[1] == request.path_info %>
+            <li class='active'>
+          <% else %>
+            <li>
+          <% end %>
+              <a href=<%= link_data[1] %>><%= link_data[0] %></a>
+            </li>
+        <% end %>
+      </ul>
+    </div>
+    <div class='content'>
+      <%= yield %>
+    </div>
   </body>
 </html>
