@@ -37,8 +37,8 @@
             </td>
           </tr>
           <tr><td colspan=2 align=center>
-            <input type="submit" value="検索" style='width: 80px;', name='search_button'>
-            <input type="submit" value="クリア" style='width: 80px;', name='clear_button'>
+            <input type="submit" class='btn btn-xs btn-success' value="検索" style='width: 80px;', name='search_button'>
+            <input type="submit" class='btn btn-xs btn-warning' value="クリア" style='width: 80px;', name='clear_button'>
           </td></tr>
         </table>
       </form>
@@ -64,7 +64,7 @@
               </select>
             </td>
           </tr>
-          <tr><td colspan=2 align=center><input type="submit" value="登録" style='width: 80px;' onClick="return CreateCheck();"></td></tr>
+          <tr><td colspan=2 align=center><input type="submit" class='btn btn-xs btn-primary' value="登録" style='width: 80px;' onClick="return CreateCheck();"></td></tr>
         </table>
       </form>
     </td>
@@ -97,8 +97,8 @@
             </select>
           </td>
           <td>
-            <input type="submit" name="update" value="修正" style='width: 60px;' onClick="return KanaCheck();">
-            <input type="submit" name="cancel" value="キャンセル" style='width: 80px;'>
+            <input type="submit" class='btn btn-xs btn-primary' name="update" value="修正" style='width: 60px;' onClick="return KanaCheck();">
+            <input type="submit" class='btn btn-xs btn-danger' name="cancel" value="キャンセル" style='width: 80px;'>
             <input type="hidden" name="id" value="<%= author.id %>">
           </td>
         </form>
@@ -112,14 +112,14 @@
         <td><%= sex_translate(author.sex) %></td>
         <form method="get" action="edit">
           <td>
-            <input type="submit" value="編集" style='width: 60px;'>
+            <input type="submit" class='btn btn-xs btn-warning' value="編集" style='width: 60px;'>
             <input type="hidden" name="id" value="<%= author.id %>">
             <input type="hidden" name="name" value="<%= params[:name] %>">
           </td>
         </form>
         <form method="post" action="del">
           <td>
-            <input type="submit" value="削除" style='width: 60px;' onClick="return DeleteCheck();">
+            <input type="submit" class='btn btn-xs btn-danger' value="削除" style='width: 60px;' onClick="return DeleteCheck();">
             <input type="hidden" name="_method" value="delete">
             <input type="hidden" name="id" value="<%= author.id %>">
           </td>

@@ -85,8 +85,8 @@
             </td>
           </tr>
           <tr><td colspan=2 align=center>
-            <input type="submit" value="検索" style='width: 80px;', name='search_button'>
-            <input type="submit" value="クリア" style='width: 80px;', name='clear_button'>
+            <input type="submit" class='btn btn-xs btn-success' value="検索" style='width: 80px;', name='search_button'>
+            <input type="submit" class='btn btn-xs btn-warning' value="クリア" style='width: 80px;', name='clear_button'>
           </td></tr>
         </table>
       </form>
@@ -130,7 +130,7 @@
               </select>
             </td>
           </tr>
-          <tr><td colspan=2 align=center><input type="submit" value="登録" style='width: 80px;' onClick="return SelectCheck();"></td></tr>
+          <tr><td colspan=2 align=center><input type="submit" class='btn btn-xs btn-primary' value="登録" style='width: 80px;' onClick="return SelectCheck();"></td></tr>
         </table>
       </form>
     </td>
@@ -181,8 +181,8 @@
             </select>
           </td>
           <td>
-            <input type="submit" name="update" value="修正" style='width: 60px;' onClick="return KanaCheck();"><br>
-            <input type="submit" name="cancel" value="取消" style='width: 60px;'>
+            <input type="submit" class='btn btn-xs btn-primary' name="update" value="修正" style='width: 60px;' onClick="return KanaCheck();"><br>
+            <input type="submit" class='btn btn-xs btn-danger' name="cancel" value="取消" style='width: 60px;'>
             <input type="hidden" name="id"     value="<%= book.id %>">
             <input type="hidden" name="isbn"   value="<%= book.isbn %>">
           </td>
@@ -198,19 +198,19 @@
         <% status_str, next_id = get_status_and_next_id(book.status) %>
         <td id='book_status_<%= book.id %>'><%= status_str %></td>
         <td>
-          <input type="button" name="change_status", value="※" style='width: 20px;' onClick="changeStatus(<%= book.id %>);">
-          <input type="hidden" name="next_status_id", id='next_status_id_<%= book.id %>' value="<%= next_id %>">
+          <input type="button" name="change_status" class='btn btn-xs btn-info' value="※" onClick="changeStatus(<%= book.id %>);">
+          <input type="hidden" name="next_status_id" id='next_status_id_<%= book.id %>' value="<%= next_id %>">
         </td>
         <% unless @target_book %>
           <form method="get" action="edit">
             <td>
-              <input type="submit" value="編集" style='width: 60px;'>
+              <input type="submit" class='btn btn-xs btn-warning' value="編集" style='width: 60px;'>
               <input type="hidden" name="id" value="<%= book.id %>">
             </td>
           </form>
           <form method="post" action="del">
             <td>
-              <input type="submit" value="削除" style='width: 60px;', onClick="return confirm('削除します。よろしいですか？');">
+              <input type="submit" class='btn btn-xs btn-danger' value="削除" style='width: 60px;', onClick="return confirm('削除します。よろしいですか？');">
               <input type="hidden" name="_method" value="delete">
               <input type="hidden" name="id" value="<%= book.id %>">
             </td>
