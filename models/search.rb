@@ -3,61 +3,46 @@
 class Search
   extend RaiseCatch
 
-  def self.search_by_isbn(isbn_str)
-    begin
-      item = Amazon::Ecs.item_lookup(isbn_str, {IdType: 'ISBN', SearchIndex: 'Books', ResponseGroup: 'ItemAttributes'}).first_item
-    rescue SocketError => e
-      p ">>>>>>>>>>>>> error : #{e}"
-      return { error: 'amazonへの問い合わせ中にエラーが発生しました' }
-    rescue => e
-      p ">>>>>>>>>>>>> error : #{e}"
-      return { error: 'エラーが発生しました' }
-    end
+  def self.get_result_hash(type, *params)
+    data_list = case type
+                when :isbn  then search_by_isbn(*params)
+                when :title then search_by_title(*params)
+                end
 
-    if item
-      title, label = make_title_and_label(item.get('ItemAttributes/Title'))
-      isbn = item.get('ItemAttributes/ISBN')
-      registered_book = Book.get_by_isbn(isbn)
-      data = {
-        isbn:             isbn,
-        title:            title,
-        author_name:      item.get('ItemAttributes/Author'),
-        label_name:       label,
-        registered_title: (registered_book ? registered_book.name : nil)
-      }
-      { data_list: [data] }
+    if data_list.present?
+      { data_list: data_list }
     else
       { error: '該当する書籍が見つかりませんでした' }
     end
   end
 
-  def self.search_by_title(title_str)
-    begin
-      items = Amazon::Ecs.item_search(title_str, {search_index: 'Books', response_group: 'ItemAttributes'}).items
-    rescue SocketError => e
-      p ">>>>>>>>>>>>> error : #{e}"
-      return { error: 'amazonへの問い合わせ中にエラーが発生しました' }
-    rescue => e
-      p ">>>>>>>>>>>>> error : #{e}"
-      return { error: 'エラーが発生しました' }
-    end
+  def self.search_by_isbn(isbn_str)
+    item = Amazon::Ecs.item_lookup(isbn_str,
+                                   { IdType: 'ISBN',
+                                     SearchIndex: 'Books',
+                                     ResponseGroup: 'ItemAttributes'}).first_item
+    item ? [ make_data_hash(item) ] : []
+  end
 
-    if items
-      data_list = items.map do |item|
-                    title, label = make_title_and_label(item.get('ItemAttributes/Title'))
-                    isbn = item.get('ItemAttributes/ISBN')
-                    registered_book = Book.get_by_isbn(isbn)
-                    {
-                      isbn:             isbn,
-                      title:            title,
-                      author_name:      item.get('ItemAttributes/Author'),
-                      label_name:       label,
-                      registered_title: (registered_book ? registered_book.name : nil)
-                    }
-                  end
-      { data_list: data_list }
-    else
-      { error: '該当する書籍が見つかりませんでした' }
+  def self.search_by_title(title_str)
+    items = Amazon::Ecs.item_search(title_str,
+                                    { search_index: 'Books',
+                                      response_group: 'ItemAttributes'}).items
+    items.map{ |item| make_data_hash(item) }
+  end
+
+  def self.make_data_hash(item)
+    if item
+      title, label = make_title_and_label(item.get('ItemAttributes/Title'))
+      isbn = item.get('ItemAttributes/ISBN')
+      registered_book = Book.get_by_isbn(isbn)
+      {
+        isbn:             isbn,
+        title:            title,
+        author_name:      item.get('ItemAttributes/Author'),
+        label_name:       label,
+        registered_title: registered_book.try(:name)
+      }
     end
   end
 
