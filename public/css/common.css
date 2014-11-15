@@ -8,3 +8,23 @@ div.head {
 div.content {
   padding: 60px 0px 0px 0px;
 }
+
+th.btn-size {
+  width: 70px;
+  text-align: center;
+}
+
+th.center {
+  text-align: center;
+}
+
+.btn-tn {
+  width: 20px;
+}
+.btn-md {
+  width: 60px;
+}
+.btn-wd {
+  width: 80px;
+}
+

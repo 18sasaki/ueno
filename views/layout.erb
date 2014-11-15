@@ -14,16 +14,15 @@
     }
 
     function KanaCheck() {
-      var str = document.getElementById('name_kana').value;
+      var str = document.getElementById('edit_name_kana').value;
       if( str.match( /[^ぁ-ん0-9０-９]+/ ) ) {
         alert("「かな」欄に登録出来るのは、ひらがなと全角数字のみです。");
         return false;
       }
     }
 
-    function DeleteCheck() {
-      var disp_name = document.getElementById('disp_name').innerText;
-      if(!confirm(disp_name + "を削除します。よろしいですか？")) {
+    function DeleteCheck(name) {
+      if(!confirm(name + "を削除します。よろしいですか？")) {
         return false;
       }
     }
