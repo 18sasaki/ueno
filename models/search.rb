@@ -18,13 +18,44 @@ class Search
       title, label = make_title_and_label(item.get('ItemAttributes/Title'))
       isbn = item.get('ItemAttributes/ISBN')
       registered_book = Book.get_by_isbn(isbn)
-      {
+      data = {
         isbn:             isbn,
         title:            title,
         author_name:      item.get('ItemAttributes/Author'),
         label_name:       label,
         registered_title: (registered_book ? registered_book.name : nil)
       }
+      { data_list: [data] }
+    else
+      { error: '該当する書籍が見つかりませんでした' }
+    end
+  end
+
+  def self.search_by_title(title_str)
+    begin
+      items = Amazon::Ecs.item_search(title_str, {search_index: 'Books', response_group: 'ItemAttributes'}).items
+    rescue SocketError => e
+      p ">>>>>>>>>>>>> error : #{e}"
+      return { error: 'amazonへの問い合わせ中にエラーが発生しました' }
+    rescue => e
+      p ">>>>>>>>>>>>> error : #{e}"
+      return { error: 'エラーが発生しました' }
+    end
+
+    if items
+      data_list = items.map do |item|
+                    title, label = make_title_and_label(item.get('ItemAttributes/Title'))
+                    isbn = item.get('ItemAttributes/ISBN')
+                    registered_book = Book.get_by_isbn(isbn)
+                    {
+                      isbn:             isbn,
+                      title:            title,
+                      author_name:      item.get('ItemAttributes/Author'),
+                      label_name:       label,
+                      registered_title: (registered_book ? registered_book.name : nil)
+                    }
+                  end
+      { data_list: data_list }
     else
       { error: '該当する書籍が見つかりませんでした' }
     end

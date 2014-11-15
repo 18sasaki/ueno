@@ -69,15 +69,14 @@ function changeLabel() {
                       <% end %>
                     </select>
                   </td>
-                  <td><input type="submit" class='btn btn-xs btn-primary btn-md' value="登録" onClick="return KanaCheck();"></td>
                 </tr>
+                <tr><td colspan=2><input type="submit" class='btn btn-xs btn-primary btn-md' value="登録" onClick="return KanaCheck();"></td></tr>
               </table>
               <input type="hidden" name="original[isbn]" value='<%= params[:isbn] %>'>
               <input type="hidden" name="original[title]" value='<%= params[:title] %>'>
               <input type="hidden" name="original[label_id]" value='<%= @label_id %>'>
               <input type="hidden" name="original[label_name]" value='<%= params[:label_name] %>'>
             </form>
-            <hr>
           <% end %>
         </td>
       <tr>

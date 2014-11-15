@@ -171,12 +171,19 @@ get '/search/' do
 end
 
 post '/search/' do
-  formatted_isbn = if params[:isbn_13].present?
-                     '978' + params[:isbn_13].gsub(/[^0-9X]/, '')
-                   else
-                     params[:isbn_10].gsub(/[^0-9X]/, '')
-                   end
-  @data = Search.search_by_isbn(formatted_isbn)
+  if params[:isbn]
+    formatted_isbn = if params[:isbn_13].present?
+                       '978' + params[:isbn_13].gsub(/[^0-9X]/, '')
+                     else
+                       params[:isbn_10].gsub(/[^0-9X]/, '')
+                     end
+    search_result = Search.search_by_isbn(formatted_isbn)
+  elsif params[:title]
+    search_result = Search.search_by_title(params[:title_str])
+  end
+  @data_list = search_result[:data_list]
+  @error     = search_result[:error]
+
   erb :search_index
 end
 

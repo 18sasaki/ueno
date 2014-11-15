@@ -1,22 +1,46 @@
+<script type="text/javascript">
+  <!--
+    function bookRegister(){
+      index = $("input[name='data_index']:checked").val();
+
+      isbn        = $('#isbn_' + index).val()
+      title       = $('#title_' + index).text()
+      author_name = $('#author_name_' + index).text()
+      label_name  = $('#label_name_' + index).text()
+
+      url = '/search/book_register?isbn=' + isbn + '&title=' + title + '&author_name=' + author_name + '&label_name=' + label_name
+      location.href = url;
+    }
+  // -->
+</script>
+
 <form method="post">
-  <table>
+  <table class='form'>
     <tr>
-      <td align=right style='padding: 0px 5px;'>
+      <td align=right>
         ISBN 10桁
       </td>
-      <td align=right style='padding: 0px 5px;'>
-            <input type="text" name="isbn_10" size='10' value=<%= params ? params[:isbn_10] : '' %>>
+      <td align=right>
+        <input type="text" name="isbn_10" size='10' value=<%= params ? params[:isbn_10] : '' %>>
       </td>
-      <td rowspan=2 align=center style='padding: 5px;'>
-        <input type="submit" class='btn btn-xs btn-success btn-md' value="検索">
+      <td rowspan=2>
+        <input type="submit" class='btn btn-xs btn-success btn-wd' name='isbn' value="ISBN検索">
       </td>
     </tr>
     <tr>
-      <td align=right style='padding: 0px 5px;'>
-             13桁
+      <td align=right>
+        13桁
       </td>
-      <td align=right style='padding: 0px 5px;'>
+      <td align=right>
         978-<input type="text" name="isbn_13" size='10' value=<%= params ? params[:isbn_13] : '' %>>
+      </td>
+    </tr>
+    <tr>
+      <td colspan=2>
+        <input type="text" name="title_str" size='30' value=<%= params ? params[:title_str] : '' %>>
+      </td>
+      <td>
+        <input type="submit" class='btn btn-xs btn-success btn-wd' name='title' value="タイトル検索">
       </td>
     </tr>
   </table>
@@ -24,30 +48,61 @@
 
 <br>
 
-<% if @data %>
-  <% if @data[:error] %>
-    ERROR! : <%= @data[:error] %>
-  <% else %>
+<% if @error %>
+  ERROR! : <%= @error %>
+<% elsif @data_list %>
+  <% if @data_list.count == 1 %>
     <div id="search_result">
-      <table class="table table-condensed" style='width: auto;'>
+      <table class="table" style='width: auto;'>
         <tr>
           <th>ISBN</th>
-          <td><%= @data[:isbn] %></td>
+          <td><%= @data_list[0][:isbn] %></td>
+        </tr>
         <tr>
           <th>タイトル</th>
-          <td><%= @data[:title] %></td>
+          <td><%= @data_list[0][:title] %></td>
+        </tr>
         <tr>
           <th>著者名</th>
-          <td><%= @data[:author_name] %></td>
+          <td><%= @data_list[0][:author_name] %></td>
+        </tr>
         <tr>
           <th>出版社</th>
-          <td><%= @data[:label_name] %></td>
+          <td><%= @data_list[0][:label_name] %></td>
+        </tr>
       </table>
-      <% if registered_title = @data[:registered_title] %>
+      <% if registered_title = @data_list[0][:registered_title] %>
         登録済です（登録タイトル：<%= registered_title %>）
       <% else %>
-        <a href='/search/book_register?<%= data_to_query(@data) %>' class='btn btn-primary'>登録画面へ</a>
+        <a href='/search/book_register?<%= data_to_query(@data_list[0]) %>' class='btn btn-primary'>登録画面へ</a>
       <% end %>
+    </div>
+  <% else %>
+    <div id="search_result">
+      <table class="table" style='width: auto;'>
+        <tr>
+          <th></th>
+          <th>タイトル</th>
+          <th>著者名</th>
+          <th>出版社</th>
+        </tr>
+        <% @data_list.each_with_index do |data, i| %>
+          <tr>
+            <td>
+              <% if data[:registered_title] %>
+                済
+              <% else %>
+                <input type='radio' id='data_<%= i %>' name='data_index' value='<%= i %>'>
+              <% end %>
+              <input id='isbn_<%= i %>' type='hidden' value='<%= data[:isbn] %>'>
+            </td>
+            <td id='title_<%= i %>'><label for='data_<%= i %>'><%= data[:title] %></label></td>
+            <td id='author_name_<%= i %>'><label for='data_<%= i %>'><%= data[:author_name] %></label></td>
+            <td id='label_name_<%= i %>'><label for='data_<%= i %>'><%= data[:label_name] %></label></td>
+          </tr>
+        <% end %>
+      </table>
+      <input type="button" class='btn btn-primary' onclick="bookRegister();" value="登録画面へ">
     </div>
   <% end %>
 <% end %>
