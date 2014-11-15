@@ -6,7 +6,7 @@
   <tr>
     <td>
       <form method="post" action="/label/">
-        <table class='search'>
+        <table class='form'>
           <tr>
             <td>名前</td>
             <td><input type="text" name="name" value='<%= session[:label] && session[:label]['name'] %>'></td>
@@ -20,7 +20,7 @@
     </td>
     <td>
       <form method="post" action="create">
-        <table class='search'>
+        <table class='form'>
           <tr>
             <td>名前</td>
             <td><input type="text" name="name" id="name"></td>

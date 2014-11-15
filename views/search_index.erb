@@ -46,7 +46,7 @@
       <% if registered_title = @data[:registered_title] %>
         登録済です（登録タイトル：<%= registered_title %>）
       <% else %>
-        <a href='/search/book_register?<%= data_to_query(@data) %>'>登録画面へ</a>
+        <a href='/search/book_register?<%= data_to_query(@data) %>' class='btn btn-primary'>登録画面へ</a>
       <% end %>
     </div>
   <% end %>

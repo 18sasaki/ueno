@@ -26,7 +26,7 @@ function changeLabel() {
   <% else %>
     ※先に著者名と出版社名を確定させてください
   <% end %>
-    <table border>
+    <table class='table' style='width: auto;'>
       <tr>
         <th>ISBN</th>
         <td><%= params[:isbn] %></td>
@@ -57,9 +57,9 @@ function changeLabel() {
             )
           <% else %>
             <form method="post" action="author_register">
-              <table>
+              <table class='form'>
                 <tr><td>名前</td><td><input type="text" name="name" value="<%= params[:author_name] %>"></td></tr>
-                <tr><td>かな</td><td><input type="text" name="name_kana" id="name_kana"></td></tr>
+                <tr><td>かな</td><td><input type="text" name="name_kana" id="edit_name_kana"></td></tr>
                 <tr>
                   <td>性別</td>
                   <td>
@@ -69,7 +69,7 @@ function changeLabel() {
                       <% end %>
                     </select>
                   </td>
-                  <td><input type="submit" class='btn btn-xs btn-primary' value="登録" style='width: 80px;' onClick="return KanaCheck();"></td>
+                  <td><input type="submit" class='btn btn-xs btn-primary btn-md' value="登録" onClick="return KanaCheck();"></td>
                 </tr>
               </table>
               <input type="hidden" name="original[isbn]" value='<%= params[:isbn] %>'>
@@ -97,17 +97,16 @@ function changeLabel() {
             )
           <% else %>
             <form method="post" action="label_register">
-              <table>
+              <table class='form'>
                 <tr><td>名前</td><td><input type="text" name="name" value="<%= params[:label_name] %>"></td></tr>
-                <tr><td>かな</td><td><input type="text" name="name_kana" id="name_kana"></td></tr>
-                <tr><td colspan=2><input type="submit" class='btn btn-xs btn-primary' value="登録" style='width: 80px;' onClick="return KanaCheck();"></td></tr>
+                <tr><td>かな</td><td><input type="text" name="name_kana" id="edit_name_kana"></td></tr>
+                <tr><td colspan=2><input type="submit" class='btn btn-xs btn-primary btn-md' value="登録" onClick="return KanaCheck();"></td></tr>
               </table>
               <input type="hidden" name="original[isbn]" value='<%= params[:isbn] %>'>
               <input type="hidden" name="original[title]" value='<%= params[:title] %>'>
               <input type="hidden" name="original[author_id]" value='<%= @author_id %>'>
               <input type="hidden" name="original[author_name]" value='<%= params[:author_name] %>'>
             </form>
-            <hr>
           <% end %>
         </td>
       </tr>
@@ -125,7 +124,7 @@ function changeLabel() {
       <% end %>
     </table>
   <% if book_register_flg %>
-    <input type="submit" class='btn btn-xs btn-primary' value="登録する" style='width: 80px;'>
+    <input type="submit" class='btn btn-primary' value="登録">
     </form>
   <% end %>
 </div>

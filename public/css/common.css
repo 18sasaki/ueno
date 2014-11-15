@@ -21,7 +21,8 @@ th.right {
   text-align: right;
 }
 
-table.search > tbody > tr > td {
+table.form > tr > td,
+table.form > tbody > tr > td {
   padding: 3px;
 }
 
