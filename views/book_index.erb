@@ -34,19 +34,15 @@
   // -->
 </script>
 
-<div align='center'>
-  <h2>Book</h2>
-</div>
-
 <table border>
   <tr>
-    <th align=center>検索</td>
-    <th align=center>登録</td>
+    <th class='center'>検索</td>
+    <th class='center'>登録</td>
   </tr>
   <tr>
     <td>
       <form method="post" action="/book/">
-        <table>
+        <table class='search'>
           <tr>
             <td>名前</td>
             <td><input type="text" name="name" value='<%= session[:book] && session[:book]['name'] %>' size='30'></td>
@@ -85,15 +81,15 @@
             </td>
           </tr>
           <tr><td colspan=2 align=center>
-            <input type="submit" class='btn btn-xs btn-success' value="検索" style='width: 80px;', name='search_button'>
-            <input type="submit" class='btn btn-xs btn-warning' value="クリア" style='width: 80px;', name='clear_button'>
+            <input type="submit" class='btn btn-xs btn-success btn-md' value="検索" name='search_button'>
+            <input type="submit" class='btn btn-xs btn-warning btn-md' value="クリア" name='clear_button'>
           </td></tr>
         </table>
       </form>
     </td>
     <td>
       <form method="post" action="create">
-        <table>
+        <table class='search'>
           <tr>
             <td>名前</td>
             <td><input type="text" name="name" id="name" size='30'></td>
@@ -130,36 +126,37 @@
               </select>
             </td>
           </tr>
-          <tr><td colspan=2 align=center><input type="submit" class='btn btn-xs btn-primary' value="登録" style='width: 80px;' onClick="return SelectCheck();"></td></tr>
+          <tr><td colspan=2 align=center><input type="submit" class='btn btn-xs btn-primary btn-md' value="登録" onClick="return SelectCheck();"></td></tr>
         </table>
       </form>
     </td>
   </tr>
 </table>
 
-<br><br>
+<br>
 
 <table class="table table-condensed">
   <tr>
-    <th>id</th>
+    <th class='right'>id</th>
     <th>isbn</th>
     <th>名前</th>
     <th>著者</th>
     <th>出版社</th>
     <th colspan=2>ステータス</th>
+    <th class='btn-size'></th>
+    <th class='btn-size'></th>
   </tr>
   <% @books.each do |book| %>
     <% if book == @target_book %>
       <tr>
         <form method="post" action="update">
-          <td><%= book.id %></td>
+          <td align='right'><%= book.id %></td>
           <td><%= book.isbn %></td>
           <td>
             <input type="text" name="name" size='50' value='<%= book.name %>'>
           </td>
           <td>
             <select name="author_id">
-              <option>選択してください</option>
               <% @authors.each do |author| %>
                 <%= "<option value='#{author.id}' #{(author.id == book.author_id) ? 'selected' : ''}>#{author.name}</option>" %>
               <% end %>
@@ -167,7 +164,6 @@
           </td>
           <td>
             <select name="label_id">
-              <option>選択してください</option>
               <% @labels.each do |label| %>
                 <%= "<option value='#{label.id}' #{(label.id == book.label_id) ? 'selected' : ''}>#{label.name}</option>" %>
               <% end %>
@@ -181,16 +177,18 @@
             </select>
           </td>
           <td>
-            <input type="submit" class='btn btn-xs btn-primary' name="update" value="修正" style='width: 60px;' onClick="return KanaCheck();"><br>
-            <input type="submit" class='btn btn-xs btn-danger' name="cancel" value="取消" style='width: 60px;'>
-            <input type="hidden" name="id"     value="<%= book.id %>">
-            <input type="hidden" name="isbn"   value="<%= book.isbn %>">
+            <input type="submit" class='btn btn-xs btn-primary btn-md' name="update" value="修正"><br>
+            <input type="hidden" name="id"   value="<%= book.id %>">
+            <input type="hidden" name="isbn" value="<%= book.isbn %>">
+          </td>
+          <td>
+            <input type="submit" class='btn btn-xs btn-danger btn-wd' name="cancel" value="キャンセル">
           </td>
         </form>
       </tr>
     <% else %>
       <tr>
-        <td><%= book.id %></td>
+        <td align='right'><%= book.id %></td>
         <td><%= book.isbn %></td>
         <td><%= book.name %></td>
         <td><%= book.author.name %></td>
@@ -198,24 +196,22 @@
         <% status_str, next_id = get_status_and_next_id(book.status) %>
         <td id='book_status_<%= book.id %>'><%= status_str %></td>
         <td>
-          <input type="button" name="change_status" class='btn btn-xs btn-info' value="※" onClick="changeStatus(<%= book.id %>);">
+          <input type="button" name="change_status" class='btn btn-xs btn-info btn-tn' value="※" onClick="changeStatus(<%= book.id %>);">
           <input type="hidden" name="next_status_id" id='next_status_id_<%= book.id %>' value="<%= next_id %>">
         </td>
-        <% unless @target_book %>
-          <form method="get" action="edit">
-            <td>
-              <input type="submit" class='btn btn-xs btn-warning' value="編集" style='width: 60px;'>
-              <input type="hidden" name="id" value="<%= book.id %>">
-            </td>
-          </form>
-          <form method="post" action="del">
-            <td>
-              <input type="submit" class='btn btn-xs btn-danger' value="削除" style='width: 60px;', onClick="return confirm('削除します。よろしいですか？');">
-              <input type="hidden" name="_method" value="delete">
-              <input type="hidden" name="id" value="<%= book.id %>">
-            </td>
-          </form>
-        <% end %>
+        <form method="get" action="edit">
+          <td>
+            <input type="submit" class='btn btn-xs btn-warning btn-md' value="編集">
+            <input type="hidden" name="id" value="<%= book.id %>">
+          </td>
+        </form>
+        <form method="post" action="del">
+          <td>
+            <input type="submit" class='btn btn-xs btn-danger btn-md' value="削除" onClick="return DeleteCheck('<%= book.name %>');">
+            <input type="hidden" name="_method" value="delete">
+            <input type="hidden" name="id" value="<%= book.id %>">
+          </td>
+        </form>
       </tr>
     <% end %>
   <% end %>

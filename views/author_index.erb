@@ -6,7 +6,7 @@
   <tr>
     <td>
       <form method="post" action="/author/">
-        <table>
+        <table class='search'>
           <tr>
             <td>頭文字</td>
             <td>
@@ -41,7 +41,7 @@
     </td>
     <td>
       <form method="post" action="create">
-        <table>
+        <table class='search'>
           <tr>
             <td>名前</td>
             <td><input type="text" name="name" id="name"></td>
@@ -71,7 +71,7 @@
 
 <table class="table table-condensed">
   <tr>
-    <th>id</th>
+    <th class='right'>id</th>
     <th>頭文字</th>
     <th>名前</th>
     <th>かな</th>
@@ -83,7 +83,7 @@
     <% if author == @target_author %>
       <tr>
         <form method="post" action="update">
-          <td><%= author.id %></td>
+          <td align='right'><%= author.id %></td>
           <td><%= author.initial %></td>
           <td><input type="text" name="name" value='<%= author.name %>'></td>
           <td><input type="text" name="name_kana" id="edit_name_kana" value='<%= author.name_kana %>'></td>
@@ -94,16 +94,18 @@
               <% end %>
             </select>
           </td>
-          <td class='btn'>
+          <td>
             <input type="submit" class='btn btn-xs btn-primary btn-md' name="update" value="修正" onClick="return KanaCheck();">
-            <input type="submit" class='btn btn-xs btn-danger btn-wd' name="cancel" value="キャンセル">
             <input type="hidden" name="id" value="<%= author.id %>">
+          </td>
+          <td>
+            <input type="submit" class='btn btn-xs btn-danger btn-wd' name="cancel" value="キャンセル">
           </td>
         </form>
       </tr>
     <% else %>
       <tr>
-        <td><%= author.id %></td>
+        <td align='right'><%= author.id %></td>
         <td><%= author.initial %></td>
         <td><%= author.name %></td>
         <td><%= author.name_kana %></td>

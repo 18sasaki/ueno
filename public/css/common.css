@@ -17,6 +17,13 @@ th.btn-size {
 th.center {
   text-align: center;
 }
+th.right {
+  text-align: right;
+}
+
+table.search > tbody > tr > td {
+  padding: 3px;
+}
 
 .btn-tn {
   width: 20px;

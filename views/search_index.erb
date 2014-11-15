@@ -1,35 +1,35 @@
-<div align='center'>
-  <h2>Search</h2>
-</div>
-
-
 <form method="post">
-  <table border>
+  <table>
     <tr>
-      <td align=right>
-        ISBN 10桁<br>
-             13桁
+      <td align=right style='padding: 0px 5px;'>
+        ISBN 10桁
       </td>
-      <td align=right>
-            <input type="text" name="isbn_10" value=<%= params ? params[:isbn_10] : '' %>><br>
-        978-<input type="text" name="isbn_13" value=<%= params ? params[:isbn_13] : '' %>>
+      <td align=right style='padding: 0px 5px;'>
+            <input type="text" name="isbn_10" size='10' value=<%= params ? params[:isbn_10] : '' %>>
+      </td>
+      <td rowspan=2 align=center style='padding: 5px;'>
+        <input type="submit" class='btn btn-xs btn-success btn-md' value="検索">
       </td>
     </tr>
     <tr>
-      <td colspan=2>
-        <input type="submit" class='btn btn-xs btn-success' value="検索" style='width: 80px;'>
+      <td align=right style='padding: 0px 5px;'>
+             13桁
+      </td>
+      <td align=right style='padding: 0px 5px;'>
+        978-<input type="text" name="isbn_13" size='10' value=<%= params ? params[:isbn_13] : '' %>>
       </td>
     </tr>
   </table>
 </form>
 
+<br>
+
 <% if @data %>
   <% if @data[:error] %>
     ERROR! : <%= @data[:error] %>
   <% else %>
-    ---------------- 検索結果 ----------------
     <div id="search_result">
-      <table class="table table-condensed">
+      <table class="table table-condensed" style='width: auto;'>
         <tr>
           <th>ISBN</th>
           <td><%= @data[:isbn] %></td>

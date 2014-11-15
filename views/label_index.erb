@@ -1,30 +1,26 @@
-<div align='center'>
-  <h2>Label</h2>
-</div>
-
 <table border>
   <tr>
-    <th align=center>検索</td>
-    <th align=center>登録</td>
+    <th class='center'>検索</th>
+    <th class='center'>登録</th>
   </tr>
   <tr>
     <td>
       <form method="post" action="/label/">
-        <table>
+        <table class='search'>
           <tr>
             <td>名前</td>
             <td><input type="text" name="name" value='<%= session[:label] && session[:label]['name'] %>'></td>
           </tr>
           <tr><td colspan=2 align=center>
-            <input type="submit" class='btn btn-xs btn-success' value="検索" style='width: 80px;', name='search_button'>
-            <input type="submit" class='btn btn-xs btn-warning' value="クリア" style='width: 80px;', name='clear_button'>
+            <input type="submit" class='btn btn-xs btn-success btn-md' value="検索" name='search_button'>
+            <input type="submit" class='btn btn-xs btn-warning btn-md' value="クリア" name='clear_button'>
           </td></tr>
         </table>
       </form>
     </td>
     <td>
       <form method="post" action="create">
-        <table>
+        <table class='search'>
           <tr>
             <td>名前</td>
             <td><input type="text" name="name" id="name"></td>
@@ -33,53 +29,57 @@
             <td>かな</td>
             <td><input type="text" name="name_kana" id="name_kana"></td>
           </tr>
-          <tr><td colspan=2 align=center><input type="submit" class='btn btn-xs btn-primary' value="登録" style='width: 80px;' onClick="return CreateCheck();"></td></tr>
+          <tr><td colspan=2 align=center><input type="submit" class='btn btn-xs btn-primary btn-md' value="登録" onClick="return CreateCheck();"></td></tr>
         </table>
       </form>
     </td>
   </tr>
 </table>
 
-<br><br>
+<br>
 
 <table class="table table-condensed">
   <tr>
-    <th>id</th>
+    <th class='right'>id</th>
     <th>名前</th>
     <th>かな</th>
+    <th class='btn-size'></th>
+    <th class='btn-size'></th>
   </tr>
   <% @labels.each do |label| %>
     <% if label == @target_label %>
       <tr>
         <form method="post" action="update">
-          <td><%= label.id %></td>
+          <td align='right'><%= label.id %></td>
           <td><input type="text" name="name" value='<%= label.name %>'></td>
-          <td><input type="text" name="name_kana" value='<%= label.name_kana %>'></td>
+          <td><input type="text" name="name_kana" id="edit_name_kana" value='<%= label.name_kana %>'></td>
           <td>
-            <input type="submit" class='btn btn-xs btn-primary' name="update" value="修正" style='width: 80px;'>
-            <input type="submit" class='btn btn-xs btn-danger' name="cancel" value="キャンセル" style='width: 80px;'>
+            <input type="submit" class='btn btn-xs btn-primary btn-md' name="update" value="修正" onClick="return KanaCheck();">
             <input type="hidden" name="id" value="<%= label.id %>">
           </td>
-        </form>
-        <form method="post" action="del">
           <td>
-            <input type="submit" class='btn btn-xs btn-danger' value="削除" style='width: 80px;'>
-            <input type="hidden" name="_method" value="delete">
-            <input type="hidden" name="id" value="<%= label.id %>">
+            <input type="submit" class='btn btn-xs btn-danger btn-wd' name="cancel" value="キャンセル">
           </td>
         </form>
       </tr>
     <% else %>
       <tr>
-        <td><%= label.id %></td>
+        <td align='right'><%= label.id %></td>
         <td><%= label.name %></td>
         <td><%= label.name_kana %></td>
-        <form method="get" action="edit">
-          <td>
-            <input type="submit" class='btn btn-xs btn-warning' value="編集 / 削除" style='width: 80px;'>
+        <td>
+          <form method="get" action="edit">
+            <input type="submit" class='btn btn-xs btn-warning btn-md' value="編集">
             <input type="hidden" name="id" value="<%= label.id %>">
-          </td>
-        </form>
+          </form>
+        </td>
+        <td>
+          <form method="post" action="del">
+            <input type="submit" class='btn btn-xs btn-danger btn-md' value="削除" onClick="return DeleteCheck('<%= label.name %>');">
+            <input type="hidden" name="_method" value="delete">
+            <input type="hidden" name="id" value="<%= label.id %>">
+          </form>
+        </td>
       </tr>
     <% end %>
   <% end %>
