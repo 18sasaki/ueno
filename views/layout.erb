@@ -35,6 +35,7 @@
     <meta charset="utf-8">
     <title>UenoAPI</title>
     <script src="/js/jquery-1.11.1.js"></script>
+    <link href="/css/common.css" rel="stylesheet">
     <link href="/css/bootstrap.css" rel="stylesheet">
   </head>
   <body>
@@ -51,8 +52,10 @@
         <% end %>
       </ul>
     </div>
-    <div class='content'>
-      <%= yield %>
+    <div class='content' align='center'>
+      <div class='yield' style='width: 95%;'>
+        <%= yield %>
+      </div>
     </div>
   </body>
 </html>
