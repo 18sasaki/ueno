@@ -341,4 +341,14 @@ helpers do
       ['Search', '/search/']
     ]
   end
+
+  def sess(*keys)
+    keys.inject(session) do |ret, key|
+      ret.try(:[], key)
+    end
+  end
+
+  def sess_include?(key, value)
+    session[key] || {}
+  end
 end

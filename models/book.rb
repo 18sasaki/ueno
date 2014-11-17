@@ -44,7 +44,7 @@ class Book < ActiveRecord::Base
     end
 
     if params['status'].present?
-      query_sql << 'status = ?'
+      query_sql << 'status in (?)'
       query_params << params['status']
     end
 

@@ -45,7 +45,7 @@
         <table class='form'>
           <tr>
             <td>名前</td>
-            <td><input type="text" name="name" value='<%= session[:book] && session[:book]['name'] %>' size='30'></td>
+            <td><input type="text" name="name" value='<%= sess(:book)['name'] %>' size='30'></td>
           </tr>
           <tr>
             <td>著者</td>
@@ -53,7 +53,7 @@
               <select name="author_id">
                 <option value=''></option>
                 <% @authors.each do |author| %>
-                  <option value='<%= author.id %>'<%= ' selected=true' if session[:book] && session[:book]['author_id'].to_i == author.id %>><%= author.name %></option>
+                  <option value='<%= author.id %>'<%= ' selected=true' if sess(:book, 'author_id').to_i == author.id %>><%= author.name %></option>
                 <% end %>
               </select>
             </td>
@@ -64,7 +64,7 @@
               <select name="label_id">
                 <option value=''></option>
                 <% @labels.each do |label| %>
-                  <option value='<%= label.id %>'<%= ' selected=true' if session[:book] && session[:book]['label_id'].to_i == label.id %>><%= label.name %></option>
+                  <option value='<%= label.id %>'<%= ' selected=true' if sess(:book, 'label_id').to_i == label.id %>><%= label.name %></option>
                 <% end %>
               </select>
             </td>
@@ -72,12 +72,10 @@
           <tr>
             <td>ステータス</td>
             <td>
-              <select name="status">
-                <option value=''></option>
-                <% status_hash.each_pair do |k,v| %>
-                  <option value='<%= k %>'<%= ' selected=true' if session[:book] && session[:book]['status'] == k %>><%= v %></option>
-                <% end %>
-              </select>
+              <% status_hash.each do |k,v| %>
+                <input type="checkbox" name="status[]" value='<%= k %>' <%= 'checked' if (sess(:book, 'status') || []).include?(k) %>>
+                <%= v %>
+              <% end %>
             </td>
           </tr>
           <tr><td colspan=2 align=center>
