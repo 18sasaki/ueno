@@ -13,21 +13,21 @@
               <select name="initial">
                 <option value=''></option>
                 <% initial_list.each do |i| %>
-                  <option value='<%= i %>'<%= ' selected=true' if session[:author] && session[:author]['initial'] == i %>><%= i %></option>
+                  <option value='<%= i %>'<%= ' selected' if sess(:author, 'initial') == i %>><%= i %></option>
                 <% end %>
               </select>
             </td>
           </tr>
           <tr>
             <td>名前</td>
-            <td><input type="text" name="name" value='<%= session[:author] && session[:author]['name'] %>'></td>
+            <td><input type="text" name="name" value='<%= sess(:author, 'name') %>'></td>
           </tr>
           <tr>
             <td>性別</td>
             <td>
               <select name="sex">
                 <% sex_hash.each_pair do |k,v| %>
-                  <option value='<%= k %>'<%= ' selected=true' if session[:author] && session[:author]['sex'] == k %>><%= v %></option>
+                  <option value='<%= k %>'<%= ' selected' if sess(:author, 'sex') == k %>><%= v %></option>
                 <% end %>
               </select>
             </td>

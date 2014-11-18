@@ -9,7 +9,7 @@
         <table class='form'>
           <tr>
             <td>名前</td>
-            <td><input type="text" name="name" value='<%= session[:label] && session[:label]['name'] %>'></td>
+            <td><input type="text" name="name" value='<%= sess(:label, 'name') %>'></td>
           </tr>
           <tr><td colspan=2 align=center>
             <input type="submit" class='btn btn-xs btn-success btn-md' value="検索" name='search_button'>
