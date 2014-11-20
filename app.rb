@@ -203,15 +203,23 @@ get '/search/book_register' do
   erb :search_book_register
 end
 
-post '/search/author_register' do
-  new_author = Author.new.insert_data(params)
-  new_params = params['original'].merge({author_id: new_author.id, author_name: new_author.name})
+post '/search/decide_author' do
+  if params[:register]
+    new_author = Author.new.insert_data(params)
+    new_params = params['original'].merge({author_id: new_author.id, author_name: new_author.name})
+  elsif params[:select]
+    new_params = params['original']
+  end
   redirect "/search/book_register?#{data_to_query(new_params)}"
 end
 
-post '/search/label_register' do
-  new_label = Label.new.insert_data(params)
-  new_params = params['original'].merge({label_id: new_label.id, label_name: new_label.name})
+post '/search/decide_label' do
+  if params[:register]
+    new_label = Label.new.insert_data(params)
+    new_params = params['original'].merge({label_id: new_label.id, label_name: new_label.name})
+  elsif params[:select]
+    new_params = params['original']
+  end
   redirect "/search/book_register?#{data_to_query(new_params)}"
 end
 

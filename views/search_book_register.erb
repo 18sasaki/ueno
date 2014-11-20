@@ -12,6 +12,34 @@ function changeLabel() {
 　document.getElementById('label_name').innerHTML = label_item.text;
 　document.getElementById('hidden_label_id').value = label_item.value;
 }
+function displayAuthorAddForm() {
+  $('#author_add_form').show();
+  $('#author_select_form').hide();
+}
+function displayAuthorSelectForm() {
+  $('#author_add_form').hide();
+  $('#author_select_form').show();
+}
+function setAuthorName() {
+  var author_select = $('#author_select')[0];
+  var author_item = author_select.options.item(author_select.selectedIndex);
+　$('#hidden_author_name')[0].value = author_item.text;
+  var form = $('#author_select')[0];
+}
+function displayLabelAddForm() {
+  $('#label_add_form').show();
+  $('#label_select_form').hide();
+}
+function displayLabelSelectForm() {
+  $('#label_add_form').hide();
+  $('#label_select_form').show();
+}
+function setLabelName() {
+  var label_select = $('#label_select')[0];
+  var label_item = label_select.options.item(label_select.selectedIndex);
+　$('#hidden_label_name')[0].value = label_item.text;
+  var form = $('#label_select')[0];
+}
 // -->
 </script>
 
@@ -31,6 +59,7 @@ function changeLabel() {
         <th>ISBN</th>
         <td><%= params[:isbn] %></td>
         <input id='isbn' type="hidden" name="isbn" value='<%= params[:isbn] %>'>
+      </tr>
       <tr>
         <th>タイトル</th>
         <td>
@@ -40,11 +69,12 @@ function changeLabel() {
             <%= params[:title] %>
           <% end %>
         </td>
+      </tr>
       <tr>
         <th>著者名</th>
         <td>
+          <div id='author_name'><%= params[:author_name] %></div>
           <% if @author_id %>
-            <div id='author_name'><%= params[:author_name] %></div>
             <input id='hidden_author_id' type="hidden" name="author_id" value='<%= @author_id %>'>
             (変更：
               <select id='author_select'>
@@ -56,22 +86,42 @@ function changeLabel() {
               <input type="button" class='btn btn-xs btn-warning' name="change_author" id="change_author" value="変更する" onclick="changeAuthor()" />
             )
           <% else %>
-            <form method="post" action="author_register">
-              <table class='form'>
-                <tr><td>名前</td><td><input type="text" name="name" value="<%= params[:author_name] %>"></td></tr>
-                <tr><td>かな</td><td><input type="text" name="name_kana" id="edit_name_kana"></td></tr>
-                <tr>
-                  <td>性別</td>
-                  <td>
-                    <select name="sex">
-                      <% sex_hash.each_pair do |k,v| %>
-                        <%= "<option value='#{k}'>#{v}</option>" %>
-                      <% end %>
-                    </select>
-                  </td>
-                </tr>
-                <tr><td colspan=2><input type="submit" class='btn btn-xs btn-primary btn-md' value="登録" onClick="return KanaCheck();"></td></tr>
-              </table>
+            <div id='author_radio'>未登録の著者です。</div>
+
+            <input type='radio' id='add_author' name='data_index' onClick='displayAuthorAddForm()'><label for='add_author'>新規登録する</label>
+            ｜
+            <input type='radio' id='select_author' name='data_index' onClick='displayAuthorSelectForm()'><label for='select_author'>選択する</label>
+
+            <form method="post" action="decide_author">
+              <div id='author_add_form' style='display: none'>
+                <table class='form'>
+                  <tr><td>名前</td><td><input type="text" name="name" value="<%= params[:author_name] %>"></td></tr>
+                  <tr><td>かな</td><td><input type="text" name="name_kana" id="edit_name_kana"></td></tr>
+                  <tr>
+                    <td>性別</td>
+                    <td>
+                      <select name="sex">
+                        <% sex_hash.each_pair do |k,v| %>
+                          <%= "<option value='#{k}'>#{v}</option>" %>
+                        <% end %>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr><td colspan=2><input type="submit" class='btn btn-xs btn-primary btn-md' name='register' value="登録" onClick="return KanaCheck();"></td></tr>
+                </table>
+              </div>
+
+              <div id='author_select_form' style='display: none'>
+                <input id='hidden_author_name' type="hidden" name="original[author_name]" value=''>
+                <select id='author_select' name='original[author_id]'>
+                  <option value=''>選択してください</option>
+                  <% @authors.each do |author| %>
+                    <%= "<option value='#{author.id}'>#{author.name}</option>" %>
+                  <% end %>
+                </select>
+                <input type="submit" class='btn btn-xs btn-warning' name="select" id="change_author" value="選択" onclick="setAuthorName();" />
+              </div>
+
               <input type="hidden" name="original[isbn]" value='<%= params[:isbn] %>'>
               <input type="hidden" name="original[title]" value='<%= params[:title] %>'>
               <input type="hidden" name="original[label_id]" value='<%= @label_id %>'>
@@ -79,11 +129,12 @@ function changeLabel() {
             </form>
           <% end %>
         </td>
+      </tr>
       <tr>
         <th>出版社</th>
         <td>
+          <div id='label_name'><%= params[:label_name] %></div>
           <% if @label_id %>
-            <div id='label_name'><%= params[:label_name] %></div>
             <input id='hidden_label_id' type="hidden" name="label_id" value='<%= @label_id %>'>
             (変更：
               <select id='label_select'>
@@ -95,12 +146,32 @@ function changeLabel() {
               <input type="button" class='btn btn-xs btn-warning' name="change_label" id="change_label" value="変更する" onclick="changeLabel()" />
             )
           <% else %>
-            <form method="post" action="label_register">
-              <table class='form'>
-                <tr><td>名前</td><td><input type="text" name="name" value="<%= params[:label_name] %>"></td></tr>
-                <tr><td>かな</td><td><input type="text" name="name_kana" id="edit_name_kana"></td></tr>
-                <tr><td colspan=2><input type="submit" class='btn btn-xs btn-primary btn-md' value="登録" onClick="return KanaCheck();"></td></tr>
-              </table>
+            <div id='author_radio'>未登録の出版社です。</div>
+
+            <input type='radio' id='add_label' name='data_index' onClick='displayLabelAddForm()'><label for='add_label'>新規登録する</label>
+            ｜
+            <input type='radio' id='select_label' name='data_index' onClick='displayLabelSelectForm()'><label for='select_label'>選択する</label>
+
+            <form method="post" action="decide_label">
+              <div id='label_add_form' style='display: none'>
+                <table class='form'>
+                  <tr><td>名前</td><td><input type="text" name="name" value="<%= params[:label_name] %>"></td></tr>
+                  <tr><td>かな</td><td><input type="text" name="name_kana" id="edit_name_kana"></td></tr>
+                  <tr><td colspan=2><input type="submit" class='btn btn-xs btn-primary btn-md' name='register' value="登録" onClick="return KanaCheck();"></td></tr>
+                </table>
+              </div>
+
+              <div id='label_select_form' style='display: none'>
+                <input id='hidden_label_name' type="hidden" name="original[label_name]" value=''>
+                <select id='label_select' name='original[label_id]'>
+                  <option value=''>選択してください</option>
+                  <% @labels.each do |label| %>
+                    <%= "<option value='#{label.id}'>#{label.name}</option>" %>
+                  <% end %>
+                </select>
+                <input type="submit" class='btn btn-xs btn-warning' name="select" id="change_label" value="選択" onclick="setLabelName();" />
+              </div>
+
               <input type="hidden" name="original[isbn]" value='<%= params[:isbn] %>'>
               <input type="hidden" name="original[title]" value='<%= params[:title] %>'>
               <input type="hidden" name="original[author_id]" value='<%= @author_id %>'>
