@@ -189,8 +189,8 @@
         <td align='right'><%= book.id %></td>
         <td><%= book.isbn %></td>
         <td><%= book.name %></td>
-        <td><%= book.author.name %></td>
-        <td><%= book.label.name %></td>
+        <td><%= book.author.try(:name) || '著者が設定されていません' %></td>
+        <td><%= book.label.try(:name) || '出版社が設定されていません' %></td>
         <% status_str, next_id = get_status_and_next_id(book.status) %>
         <td id='book_status_<%= book.id %>'><%= status_str %></td>
         <td>
