@@ -76,6 +76,7 @@
     <th>名前</th>
     <th>かな</th>
     <th>性別</th>
+    <th>登録数</th>
     <th class='btn-size'></th>
     <th class='btn-size'></th>
   </tr>
@@ -94,6 +95,7 @@
               <% end %>
             </select>
           </td>
+          <td><div class='balloon' title='<%= author.books.map(&:name).join("</br>") %>'><%= author.books.count %></div></td>
           <td>
             <input type="submit" class='btn btn-xs btn-primary btn-md' name="update" value="修正" onClick="return KanaCheck();">
             <input type="hidden" name="id" value="<%= author.id %>">
@@ -110,7 +112,13 @@
         <td><%= author.name %></td>
         <td><%= author.name_kana %></td>
         <td><%= sex_translate(author.sex) %></td>
-        <td><div class='balloon' title='<%= author.books.map(&:name).join("</br>") %>'><%= author.books.count %></div></td>
+        <td>
+          <% author_books = author.books %>
+          <% if author_books.present? %>
+            <div class='balloon' title='<%= author_books.map(&:name).join("</br>") %>'><%= author_books.count %></div>
+          <% else %>
+            -
+          <% end %>
         <td>
           <form method="get" action="edit">
             <input type="submit" class='btn btn-xs btn-warning btn-md' value="編集">
@@ -118,11 +126,13 @@
           </form>
         </td>
         <td>
-          <form method="post" action="del">
-            <input type="submit" class='btn btn-xs btn-danger btn-md' value="削除" onClick="return DeleteCheck('<%= author.name %>');">
-            <input type="hidden" name="_method" value="delete">
-            <input type="hidden" name="id" value="<%= author.id %>">
-          </form>
+          <% if author_books.blank? %>
+            <form method="post" action="del">
+              <input type="submit" class='btn btn-xs btn-danger btn-md' value="削除" onClick="return DeleteCheck('<%= author.name %>');">
+              <input type="hidden" name="_method" value="delete">
+              <input type="hidden" name="id" value="<%= author.id %>">
+            </form>
+          <% end %>
         </td>
       </tr>
     <% end %>
