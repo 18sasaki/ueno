@@ -1,41 +1,46 @@
 <!DOCTYPE html>
 
-<script type="text/javascript">
-  <!--
-    function CreateCheck() {
-      var name_str = document.getElementById('name').value;
-      var kana_str = document.getElementById('name_kana').value;
-      if( name_str.match(/.+/) && kana_str.match(/.+/) ) {
-        return KanaCheck();
-      } else {
-        alert("未入力項目があります");
-        return false;
-      }
-    }
-
-    function KanaCheck() {
-      var str = document.getElementById('edit_name_kana').value;
-      if( str.match( /[^ぁ-ん0-9０-９]+/ ) ) {
-        alert("「かな」欄に登録出来るのは、ひらがなと全角数字のみです。");
-        return false;
-      }
-    }
-
-    function DeleteCheck(name) {
-      if(!confirm(name + "を削除します。よろしいですか？")) {
-        return false;
-      }
-    }
-  // -->
-</script>
-
 <html lang="ja">
   <head>
     <meta charset="utf-8">
     <title>UenoAPI</title>
     <script src="/js/jquery-1.11.1.js"></script>
+    <script src="/js/jquery.balloon.js"></script>
     <link href="/css/common.css" rel="stylesheet">
     <link href="/css/bootstrap.css" rel="stylesheet">
+
+    <script type="text/javascript">
+      <!--
+        function CreateCheck() {
+          var name_str = document.getElementById('name').value;
+          var kana_str = document.getElementById('name_kana').value;
+          if( name_str.match(/.+/) && kana_str.match(/.+/) ) {
+            return KanaCheck();
+          } else {
+            alert("未入力項目があります");
+            return false;
+          }
+        }
+
+        function KanaCheck() {
+          var str = document.getElementById('edit_name_kana').value;
+          if( str.match( /[^ぁ-ん0-9０-９]+/ ) ) {
+            alert("「かな」欄に登録出来るのは、ひらがなと全角数字のみです。");
+            return false;
+          }
+        }
+
+        function DeleteCheck(name) {
+          if(!confirm(name + "を削除します。よろしいですか？")) {
+            return false;
+          }
+        }
+
+        $(function() {
+          $('.balloon').balloon({ position: "bottom right" });
+        });
+      // -->
+    </script>
   </head>
   <body>
     <div class='head'>

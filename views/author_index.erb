@@ -110,6 +110,7 @@
         <td><%= author.name %></td>
         <td><%= author.name_kana %></td>
         <td><%= sex_translate(author.sex) %></td>
+        <td><div class='balloon' title='<%= author.books.map(&:name).join("</br>") %>'><%= author.books.count %></div></td>
         <td>
           <form method="get" action="edit">
             <input type="submit" class='btn btn-xs btn-warning btn-md' value="編集">

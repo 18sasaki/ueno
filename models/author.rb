@@ -1,5 +1,7 @@
 
 class Author < ActiveRecord::Base
+  has_many :books
+
   extend RaiseCatch
 
   Required = ['name', 'name_kana']
