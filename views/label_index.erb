@@ -74,11 +74,13 @@
           </form>
         </td>
         <td>
-          <form method="post" action="del">
-            <input type="submit" class='btn btn-xs btn-danger btn-md' value="削除" onClick="return DeleteCheck('<%= label.name %>');">
-            <input type="hidden" name="_method" value="delete">
-            <input type="hidden" name="id" value="<%= label.id %>">
-          </form>
+          <% if label.books.blank? %>
+            <form method="post" action="del">
+              <input type="submit" class='btn btn-xs btn-danger btn-md' value="削除" onClick="return DeleteCheck('<%= label.name %>');">
+              <input type="hidden" name="_method" value="delete">
+              <input type="hidden" name="id" value="<%= label.id %>">
+            </form>
+          <% end %>
         </td>
       </tr>
     <% end %>

@@ -1,5 +1,7 @@
 
 class Label < ActiveRecord::Base
+  has_many :books
+
   extend RaiseCatch
 
   def self.get_all
