@@ -137,11 +137,6 @@ post '/book/' do
   erb :book_index
 end
 
-post '/book/create' do
-  Book.new.insert_data(params)
-  redirect '/book/'
-end
-
 get '/book/edit' do
   @target_book = Book.find(params[:id])
   @books = Book.search(session[:book])
