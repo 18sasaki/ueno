@@ -71,8 +71,6 @@
 
 <table class="table table-condensed">
   <tr>
-    <th class='right'>id</th>
-    <th>頭文字</th>
     <th>名前</th>
     <th>かな</th>
     <th>性別</th>
@@ -84,8 +82,6 @@
     <% if author == @target_author %>
       <tr>
         <form method="post" action="update">
-          <td align='right'><%= author.id %></td>
-          <td><%= author.initial %></td>
           <td><input type="text" name="name" value='<%= author.name %>'></td>
           <td><input type="text" name="name_kana" id="edit_name_kana" value='<%= author.name_kana %>'></td>
           <td>
@@ -107,8 +103,6 @@
       </tr>
     <% else %>
       <tr>
-        <td align='right'><%= author.id %></td>
-        <td><%= author.initial %></td>
         <td><%= author.name %></td>
         <td><%= author.name_kana %></td>
         <td><%= sex_translate(author.sex) %></td>

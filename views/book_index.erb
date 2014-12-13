@@ -72,8 +72,10 @@
             <td>ステータス</td>
             <td>
               <% status_hash.each do |k,v| %>
-                <input type="checkbox" name="status[]" value='<%= k %>' <%= 'checked' if (sess(:book, 'status') || []).include?(k) %>>
-                <%= v %>
+                <label>
+                  <input type="checkbox" name="status[]" value='<%= k %>' <%= 'checked' if (sess(:book, 'status') || []).include?(k) %>>
+                  <%= v %>
+                </label>
               <% end %>
             </td>
           </tr>
@@ -91,7 +93,6 @@
 
 <table class="table table-condensed">
   <tr>
-    <th class='right'>id</th>
     <th>isbn</th>
     <th>名前</th>
     <th>著者</th>
@@ -104,7 +105,6 @@
     <% if book == @target_book %>
       <tr>
         <form method="post" action="update">
-          <td align='right'><%= book.id %></td>
           <td><%= book.isbn %></td>
           <td>
             <input type="text" name="name" size='50' value='<%= book.name %>'>
@@ -142,7 +142,6 @@
       </tr>
     <% else %>
       <tr>
-        <td align='right'><%= book.id %></td>
         <td><%= book.isbn %></td>
         <td><%= book.name %></td>
         <td><%= book.author.try(:name) || '著者が設定されていません' %></td>
