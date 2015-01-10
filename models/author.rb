@@ -21,7 +21,7 @@ class Author < ActiveRecord::Base
   end
 
   def self.get_initial_list
-    Author.group('initial').pluck('initial')
+    Author.unscoped.group('initial').pluck('initial')
   end
 
   def self.find_by_name(name, type = :eq)
