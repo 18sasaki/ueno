@@ -1,6 +1,6 @@
 
 class Label < ActiveRecord::Base
-  default_scope order('name_kana COLLATE "C"') if ENV["RACK_ENV"] == "prodction"
+  default_scope order('name_kana COLLATE "C"') if ENV["RACK_ENV"] == "production"
 
   has_many :books
 

@@ -1,6 +1,6 @@
 
 class Book < ActiveRecord::Base
-  default_scope order('name COLLATE "C"') if ENV["RACK_ENV"] == "prodction"
+  default_scope order('name COLLATE "C"') if ENV["RACK_ENV"] == "production"
 
   belongs_to :author
   belongs_to :label
