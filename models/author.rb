@@ -21,7 +21,8 @@ class Author < ActiveRecord::Base
   end
 
   def self.get_initial_list
-    Author.unscoped.group('initial').order('initial COLLATE "C"').pluck('initial')
+    order_str = (ENV["RACK_ENV"] == "production") ? 'initial COLLATE "C"' : 'initial'
+    Author.unscoped.group('initial').order(order_str).pluck('initial')
   end
 
   def self.find_by_name(name, type = :eq)
