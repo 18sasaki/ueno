@@ -317,7 +317,7 @@ helpers do
 
   def initial_list
     # TODO: 初期ロードで作っておく（Authorの変更時に修正するメソッド呼ぶ）
-    Author.group('initial').pluck('initial')
+    Author.get_initial_list
   end
 
   def data_to_query(data)

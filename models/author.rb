@@ -1,6 +1,6 @@
 
 class Author < ActiveRecord::Base
-  default_scope order('name_kana COLLATE "C"') if ENV["RACK_ENV"] == "production"
+  default_scope { order('name_kana COLLATE "C"') } if ENV["RACK_ENV"] == "production"
 
   has_many :books
 
@@ -21,7 +21,7 @@ class Author < ActiveRecord::Base
   end
 
   def self.get_initial_list
-    Author.all.group('initial')
+    Author.group('initial').pluck('initial')
   end
 
   def self.find_by_name(name, type = :eq)
