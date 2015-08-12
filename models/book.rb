@@ -66,7 +66,6 @@ class Book < ActiveRecord::Base
     self.isbn      = params[:isbn]
     self.label_id  = params[:label_id]
     self.author_id = params[:author_id]
-    self.status    = params[:status]
     self.save
   end
 end

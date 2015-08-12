@@ -97,8 +97,6 @@
     <th>著者</th>
     <th>出版社</th>
     <th colspan=2>ステータス</th>
-    <th class='btn-size'></th>
-    <th class='btn-size'></th>
   </tr>
   <% @books.each do |book| %>
     <% if book == @target_book %>
@@ -106,6 +104,12 @@
         <form method="post" action="update">
           <td>
             <input type="text" name="name" size='50' value='<%= book.name %>'>
+            <span>
+              <input type="submit" class='btn btn-xs btn-primary btn-md' name="update" value="修正">
+              <input type="submit" class='btn btn-xs btn-danger btn-wd' name="cancel" value="キャンセル">
+              <input type="hidden" name="id"   value="<%= book.id %>">
+              <input type="hidden" name="isbn" value="<%= book.isbn %>">
+            </span>
           </td>
           <td>
             <select name="author_id">
@@ -121,26 +125,18 @@
               <% end %>
             </select>
           </td>
+        </form>
+        <form method="post" action="del">
           <td colspan=2>
-            <select name="status">
-              <% status_hash.each_pair do |k,v| %>
-                <%= "<option value='#{k}' #{(k == book.status.to_s) ? 'selected' : ''}>#{v}</option>" %>
-              <% end %>
-            </select>
-          </td>
-          <td>
-            <input type="submit" class='btn btn-xs btn-primary btn-md' name="update" value="修正"><br>
-            <input type="hidden" name="id"   value="<%= book.id %>">
-            <input type="hidden" name="isbn" value="<%= book.isbn %>">
-          </td>
-          <td>
-            <input type="submit" class='btn btn-xs btn-danger btn-wd' name="cancel" value="キャンセル">
+              <input type="submit" class='btn btn-xs btn-danger btn-md' value="削除" onClick="return DeleteCheck('<%= book.name %>');">
+              <input type="hidden" name="_method" value="delete">
+              <input type="hidden" name="id" value="<%= book.id %>">
           </td>
         </form>
       </tr>
     <% else %>
       <tr>
-        <td><%= book.name %></td>
+        <td><a href="edit?id=<%= book.id %>"><%= book.name %></a></td>
         <td><%= book.author.try(:name) || '著者が設定されていません' %></td>
         <td><%= book.label.try(:name) || '出版社が設定されていません' %></td>
         <% status_str, next_id = get_status_and_next_id(book.status) %>
@@ -149,19 +145,6 @@
           <input type="button" name="change_status" class='btn btn-xs btn-info btn-tn' value="※" onClick="changeStatus(<%= book.id %>);">
           <input type="hidden" name="next_status_id" id='next_status_id_<%= book.id %>' value="<%= next_id %>">
         </td>
-        <form method="get" action="edit">
-          <td>
-            <input type="submit" class='btn btn-xs btn-warning btn-md' value="編集">
-            <input type="hidden" name="id" value="<%= book.id %>">
-          </td>
-        </form>
-        <form method="post" action="del">
-          <td>
-            <input type="submit" class='btn btn-xs btn-danger btn-md' value="削除" onClick="return DeleteCheck('<%= book.name %>');">
-            <input type="hidden" name="_method" value="delete">
-            <input type="hidden" name="id" value="<%= book.id %>">
-          </td>
-        </form>
       </tr>
     <% end %>
   <% end %>
