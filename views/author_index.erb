@@ -72,7 +72,6 @@
 <table class="table table-condensed">
   <tr>
     <th>名前</th>
-    <th>かな</th>
     <th>性別</th>
     <th>登録数</th>
     <th class='btn-size'></th>
@@ -82,8 +81,10 @@
     <% if author == @target_author %>
       <tr>
         <form method="post" action="update">
-          <td><input type="text" name="name" value='<%= author.name %>'></td>
-          <td><input type="text" name="name_kana" id="edit_name_kana" value='<%= author.name_kana %>'></td>
+          <td>
+            <input type="text" name="name" value='<%= author.name %>'><br/>
+            <input type="text" name="name_kana" id="edit_name_kana" value='<%= author.name_kana %>'>
+          </td>
           <td>
             <select name="sex">
               <% sex_hash.each_pair do |k,v| %>
@@ -104,7 +105,6 @@
     <% else %>
       <tr>
         <td><%= author.name %></td>
-        <td><%= author.name_kana %></td>
         <td><%= sex_translate(author.sex) %></td>
         <td>
           <% author_books = author.books %>

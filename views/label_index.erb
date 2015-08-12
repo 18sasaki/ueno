@@ -41,7 +41,6 @@
 <table class="table table-condensed">
   <tr>
     <th>名前</th>
-    <th>かな</th>
     <th class='btn-size'></th>
     <th class='btn-size'></th>
   </tr>
@@ -49,8 +48,10 @@
     <% if label == @target_label %>
       <tr>
         <form method="post" action="update">
-          <td><input type="text" name="name" value='<%= label.name %>'></td>
-          <td><input type="text" name="name_kana" id="edit_name_kana" value='<%= label.name_kana %>'></td>
+          <td>
+            <input type="text" name="name" value='<%= label.name %>'></br>
+            <input type="text" name="name_kana" id="edit_name_kana" value='<%= label.name_kana %>'>
+          </td>
           <td>
             <input type="submit" class='btn btn-xs btn-primary btn-md' name="update" value="修正" onClick="return KanaCheck();">
             <input type="hidden" name="id" value="<%= label.id %>">
@@ -63,7 +64,6 @@
     <% else %>
       <tr>
         <td><%= label.name %></td>
-        <td><%= label.name_kana %></td>
         <td>
           <form method="get" action="edit">
             <input type="submit" class='btn btn-xs btn-warning btn-md' value="編集">
